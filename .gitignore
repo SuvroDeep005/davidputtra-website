@@ -1,0 +1,27 @@
+# Local secrets and environment
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+.envrc
+
+# Django-generated files
+/staticfiles/
+/db.sqlite3
+/db.sqlite3-journal
+*.log
+
+# Uploaded files are ignored except the product photos required by migrations/site
+/media/*
+!/media/bikes/
+!/media/bikes/**
+
+# Local editor settings
+.vscode/
+.idea/

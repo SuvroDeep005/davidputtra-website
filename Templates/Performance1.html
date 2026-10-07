@@ -1,0 +1,33 @@
+{% extends "Base4.html" %}
+{% block title %}Performance | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="tagline">◆ ENGINEERED TO PERFORM</p><h1><span class="white-line">RAW</span> <span class="red-line">PERFORMANCE.</span></h1><p>Explore the figures and character of each motorcycle in the current DAVIDPUTTRA lineup.</p></section>
+<section class="content-section dark-section"><div class="performance-bike-list">
+    {% for bike in bikes %}<article class="performance-bike reveal">
+        <div class="performance-bike-heading"><div><span class="performance-index">0{{ forloop.counter }} / {{ bike.category|upper }}</span><h2>{{ bike.name }}</h2></div><span class="model-year">{% if bike.model_year %}MODEL YEAR {{ bike.model_year }}{% else %}YEAR NOT LISTED{% endif %}</span></div>
+        <div class="performance-highlights">
+            <div><span>ENGINE</span><strong>{% if bike.engine_cc %}{{ bike.engine_cc }} <small>cc</small>{% else %}—{% endif %}</strong></div>
+            <div><span>MAX POWER</span><strong>{% if bike.power_bhp %}{{ bike.power_bhp }} <small>bhp</small>{% else %}—{% endif %}</strong></div>
+            <div><span>MAX TORQUE</span><strong>{% if bike.torque_nm %}{{ bike.torque_nm }} <small>Nm</small>{% else %}—{% endif %}</strong></div>
+        </div>
+        {% if bike.long_description %}<p class="performance-summary">{{ bike.long_description }}</p>{% elif bike.description %}<p class="performance-summary">{{ bike.description }}</p>{% endif %}
+        <dl class="performance-spec-list">
+            {% if bike.engine_configuration %}<div><dt>Engine configuration</dt><dd>{{ bike.engine_configuration }}</dd></div>{% endif %}
+            {% if bike.cooling %}<div><dt>Cooling</dt><dd>{{ bike.cooling }}</dd></div>{% endif %}
+            {% if bike.fuel_system %}<div><dt>Fuel system</dt><dd>{{ bike.fuel_system }}</dd></div>{% endif %}
+            {% if bike.transmission %}<div><dt>Transmission</dt><dd>{{ bike.transmission }}</dd></div>{% endif %}
+            {% if bike.fuel_capacity_l %}<div><dt>Fuel capacity</dt><dd>{{ bike.fuel_capacity_l }} L</dd></div>{% endif %}
+            {% if bike.kerb_weight_kg %}<div><dt>Kerb weight</dt><dd>{{ bike.kerb_weight_kg }} kg</dd></div>{% endif %}
+            {% if bike.seat_height_mm %}<div><dt>Seat height</dt><dd>{{ bike.seat_height_mm }} mm</dd></div>{% endif %}
+            {% if bike.front_suspension %}<div><dt>Front suspension</dt><dd>{{ bike.front_suspension }}</dd></div>{% endif %}
+            {% if bike.rear_suspension %}<div><dt>Rear suspension</dt><dd>{{ bike.rear_suspension }}</dd></div>{% endif %}
+            {% if bike.front_brake %}<div><dt>Front brake</dt><dd>{{ bike.front_brake }}</dd></div>{% endif %}
+            {% if bike.rear_brake %}<div><dt>Rear brake</dt><dd>{{ bike.rear_brake }}</dd></div>{% endif %}
+            {% if bike.safety_features %}<div><dt>Rider aids</dt><dd>{{ bike.safety_features }}</dd></div>{% endif %}
+        </dl>
+        {% if bike.ideal_for %}<p class="performance-fit"><span>MADE FOR</span> {{ bike.ideal_for }}</p>{% endif %}
+        <a class="card-link" href="{% url 'BikeDetail' bike.slug %}">MODEL DETAILS →</a>
+    </article>
+    {% empty %}<p class="empty-state">Performance details are being updated.</p>{% endfor %}
+</div><div class="performance-note"><h2>BUILT AROUND THE DETAILS.</h2><p>Figures and equipment are maintained for each model. Ask a showroom for the latest availability and confirmed equipment for your region.</p></div></section>
+{% endblock %}

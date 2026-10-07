@@ -1,0 +1,24 @@
+{% extends "Base4.html" %}
+{% load static %}
+{% block title %}Showrooms & Service | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero dealers-hero"><p class="tagline">◆ FIND YOUR DAVIDPUTTRA</p><h1><span class="white-line">HERE FOR</span> <span class="red-line">THE RIDE.</span></h1><p>From a new bike to the miles ahead, find DAVIDPUTTRA showroom and service support across India.</p></section>
+<section class="content-section dark-section dealer-section">
+    <div class="coverage-heading"><div><p class="subtitle-red">OUR PRESENCE IN INDIA</p><h2>FIND US CLOSER TO HOME.</h2><p>Explore the cities we currently serve. Map pins show city coverage; contact us for the exact showroom or service-centre address.</p></div><div class="coverage-count"><strong>{{ coverage_cities|length }}</strong><span>CITIES</span></div></div>
+    <div class="coverage-map-layout"><div class="coverage-map-panel"><div id="india-dealer-map" class="india-coverage-map" role="img" aria-label="Map of India showing state and union-territory boundaries and DAVIDPUTTRA city coverage">
+        <img class="india-map-art" src="{% static 'india-states.svg' %}" alt="" aria-hidden="true">
+        {% for city in coverage_cities %}<span class="india-city-pin" style="left:{{ city.map_x }}%;top:{{ city.map_y }}%">{% if city.showroom_available %}<i class="showroom-only" aria-hidden="true"></i>{% endif %}{% if city.service_center_available %}<i class="service-only" aria-hidden="true"></i>{% endif %}<b>{{ city.city }}</b></span>{% endfor %}
+        <span class="india-map-caption">CITY COVERAGE · PINS APPROXIMATE</span>
+    </div></div><aside class="coverage-map-aside"><p class="tagline">◆ CITY COVERAGE</p><h3>SHOWROOMS & SERVICE.</h3><div class="coverage-legend"><span><i class="coverage-dot showroom-dot"></i> Showroom</span><span><i class="coverage-dot service-dot"></i> Service centre</span></div><p>Our map highlights cities with showroom and service support. Pins show approximate city coverage; contact us for exact branch addresses, opening hours and appointments.</p><a class="card-link" href="{% url 'Contact' %}">CONTACT OUR TEAM →</a></aside></div>
+    {% if coverage_cities %}<div class="coverage-city-grid">{% for city in coverage_cities %}<article class="coverage-city-card"><span class="coverage-city-index">0{{ forloop.counter }}</span><h3>{{ city.city }}</h3>{% if city.region %}<p class="coverage-region">{{ city.region }}</p>{% endif %}<div class="coverage-services">{% if city.showroom_available %}<span><i class="coverage-dot showroom-dot"></i> SHOWROOM</span>{% endif %}{% if city.service_center_available %}<span><i class="coverage-dot service-dot"></i> SERVICE CENTRE</span>{% endif %}</div>{% if city.availability_note %}<p class="coverage-note">{{ city.availability_note }}</p>{% else %}<p class="coverage-note">Contact us for exact branch locations and appointments.</p>{% endif %}</article>{% endfor %}</div>{% else %}<div class="dealer-box"><p class="tagline">◆ YOUR NEXT STOP</p><h2>LOCATIONS COMING SOON.</h2><p>City coverage will appear here once added by the DAVIDPUTTRA team.</p><a class="btn-primary" href="{% url 'Contact' %}">ASK US ABOUT YOUR AREA →</a></div>{% endif %}
+
+    {% if locations %}<div class="dealer-addresses"><div class="coverage-heading"><div><p class="subtitle-red">VISIT US</p><h2>SHOWROOM & SERVICE ADDRESSES.</h2><p>Exact branches, addresses, phone numbers and directions managed by our team.</p></div></div><div class="dealer-grid">
+        {% for location in locations %}<article class="location-card reveal">
+            <div class="location-heading"><span class="location-icon">{% if location.location_type == 'showroom' %}⌖{% else %}⚙{% endif %}</span><div><p class="subtitle-red">{{ location.get_location_type_display|upper }}</p><h2>{{ location.name }}</h2></div></div>
+            <address>{{ location.address }}<br>{{ location.city }}{% if location.region %}, {{ location.region }}{% endif %} {{ location.postal_code }}</address>
+            {% if location.phone %}<p class="location-phone">{{ location.phone }}</p>{% endif %}
+            {% if location.map_embed_url %}<a class="card-link" target="_blank" rel="noopener" href="https://www.openstreetmap.org/?mlat={{ location.latitude }}&mlon={{ location.longitude }}#map=15/{{ location.latitude }}/{{ location.longitude }}">OPEN DIRECTIONS ↗</a>{% else %}<p class="map-note">Branch map pin will appear when exact coordinates are added in the website admin.</p>{% endif %}
+        </article>{% endfor %}
+    </div></div>{% endif %}
+</section>
+{% endblock %}

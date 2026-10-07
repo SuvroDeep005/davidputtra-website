@@ -1,0 +1,32 @@
+{% extends "Base4.html" %}
+{% block title %}Secure Payment | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="tagline">◆ SECURE CHECKOUT</p><h1><span class="white-line">CONFIRM</span> <span class="red-line">{% if booking.booking_type == 'rental' %}YOUR RENTAL.{% else %}YOUR RIDE.{% endif %}</span></h1><p>Review your {% if booking.booking_type == 'rental' %}rental{% else %}ride request{% endif %} for {{ booking.bike.name }} and continue to Razorpay's secure checkout.</p></section>
+<section class="content-section dark-section"><div class="payment-card"><p class="subtitle-red">{% if booking.booking_type == 'rental' %}MOTORCYCLE RENTAL{% else %}TEST-RIDE RESERVATION{% endif %}</p><h2>{{ booking.bike.name }}</h2><p>Booking reference #{{ booking.pk }}</p>{% if booking.booking_type == 'rental' %}<p>{{ booking.preferred_date|date:'F j, Y' }} – {{ booking.return_date|date:'F j, Y' }} · {{ booking.rental_days }} rental day{% if booking.rental_days != 1 %}s{% endif %}</p><p>{{ fee_currency }} {{ booking.rental_daily_rate|floatformat:2 }} per day × {{ booking.rental_days }} days{% if booking.rental_deposit %} + {{ fee_currency }} {{ booking.rental_deposit|floatformat:2 }} security deposit{% endif %}</p>{% endif %}<p class="payment-total">TOTAL {{ fee_currency }} {{ total_display }}</p><button id="pay-button" class="btn-primary" type="button">{% if booking.booking_type == 'rental' %}PAY AND CONFIRM RENTAL{% else %}CONTINUE TO RAZORPAY{% endif %} →</button><p class="booking-privacy">Your payment details are entered only in Razorpay Checkout. DAVIDPUTTRA does not receive or store your card or UPI credentials.</p><form id="payment-verify" method="post" action="{{ success_url }}" hidden>{% csrf_token %}</form><p id="payment-error" role="alert" class="form-error"></p></div></section>
+{% endblock %}
+{% block extra_js %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+document.getElementById('pay-button').addEventListener('click', function () {
+    const options = {
+        key: '{{ key_id|escapejs }}',
+        amount: '{{ amount }}',
+        currency: '{{ currency|escapejs }}',
+        name: 'DAVIDPUTTRA',
+        description: '{% if booking.booking_type == 'rental' %}Motorcycle rental{% else %}Test-ride reservation{% endif %}',
+        order_id: '{{ order_id|escapejs }}',
+        prefill: { name: '{{ booking.customer_name|escapejs }}', email: '{{ booking.email|escapejs }}', contact: '{{ booking.phone|escapejs }}' },
+        theme: { color: '#e8000a' },
+        handler: function (response) {
+            const form = document.getElementById('payment-verify');
+            [['razorpay_payment_id', response.razorpay_payment_id], ['razorpay_order_id', response.razorpay_order_id], ['razorpay_signature', response.razorpay_signature]].forEach(([name, value]) => {
+                const field = document.createElement('input'); field.type = 'hidden'; field.name = name; field.value = value; form.appendChild(field);
+            });
+            form.hidden = false; form.submit();
+        },
+        modal: { ondismiss: function () { document.getElementById('payment-error').textContent = 'Checkout was closed. Your request is still pending payment.'; } }
+    };
+    new Razorpay(options).open();
+});
+</script>
+{% endblock %}

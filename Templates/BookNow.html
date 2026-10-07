@@ -1,0 +1,45 @@
+{% extends "Base4.html" %}
+{% block title %}{% if booking_type == 'rental' %}Rent a Motorcycle{% else %}Book a Ride{% endif %} | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="tagline">◆ EXPERIENCE THE MACHINE</p><h1>{% if booking_type == 'rental' %}<span class="white-line">RENT A</span> <span class="red-line">MOTORCYCLE.</span>{% else %}<span class="white-line">BOOK A</span> <span class="red-line">RIDE.</span>{% endif %}</h1><p>{% if booking_type == 'rental' %}Choose your DAVIDPUTTRA and reserve your dates online. Rental price and deposit are shown before secure Razorpay checkout.{% else %}Choose a DAVIDPUTTRA motorcycle and send a test-ride request. Our team will help arrange the next step.{% endif %}</p></section>
+<section class="content-section dark-section">
+    <nav class="booking-mode-tabs" aria-label="Choose booking type"><a class="{% if booking_type == 'test_ride' %}active{% endif %}" href="{% url 'BookNow' %}">TEST RIDE</a><a class="{% if booking_type == 'rental' %}active{% endif %}" href="{% url 'BookNow' %}?type=rental">RENT A BIKE</a></nav>
+    {% if booking_type == 'rental' %}
+        <div class="booking-intro"><p class="subtitle-red">RENTALS, MADE SIMPLE</p><h2>YOUR BIKE. YOUR DATES.</h2><p>Choose a model and rental period. We calculate the rental price and deposit before you continue to Razorpay. Dates are charged by full calendar days, with the return date as the final hand-back day.</p></div>
+        <div class="rental-catalog">
+            {% for bike in rental_catalog %}<article class="rental-bike-card"><span class="subtitle-red">{{ bike.category|upper }}</span><h3>{{ bike.name }}</h3>{% if bike.is_rentable and bike.rental_daily_rate and bike.rental_deposit != None and bike.rental_terms %}<strong>{{ fee_currency }} {{ bike.rental_daily_rate|floatformat:2 }} <small>/ DAY</small></strong><p>Security deposit: {{ fee_currency }} {{ bike.rental_deposit|floatformat:2 }} · Minimum {{ bike.rental_min_days }} day{% if bike.rental_min_days != 1 %}s{% endif %}{% if bike.rental_max_days %} · Maximum {{ bike.rental_max_days }} days{% endif %}</p><details><summary>Rental terms</summary><p>{{ bike.rental_terms|linebreaksbr }}</p></details>{% else %}<strong class="rental-price-pending">RATE TO BE ANNOUNCED</strong><p>Online rental opens when rate, deposit and terms are confirmed.</p>{% endif %}</article>{% empty %}<p class="empty-state">Our motorcycles are being prepared for rental.</p>{% endfor %}
+        </div>
+        {% if rentable_bikes %}
+        <form class="booking-form rental-booking-form" method="post">
+            {% csrf_token %}<input type="hidden" name="booking_type" value="rental">
+            <div class="rental-form-heading"><p class="subtitle-red">01 / YOUR RENTAL</p><h2>CHOOSE YOUR MOTORCYCLE.</h2></div>
+            <div><label for="rental-bike">MODEL</label><select id="rental-bike" name="bike" required><option value="">SELECT MODEL</option>{% for bike in rentable_bikes %}<option value="{{ bike.pk }}" {% if selected_bike|stringformat:'s' == bike.pk|stringformat:'s' %}selected{% endif %}>{{ bike.name }} — {{ fee_currency }} {{ bike.rental_daily_rate|floatformat:2 }} / day</option>{% endfor %}</select></div>
+            <div><label for="rental-start">PICK-UP DATE</label><input id="rental-start" type="date" name="rental_start" min="{{ today|date:'Y-m-d' }}" required></div>
+            <div><label for="rental-return">RETURN DATE</label><input id="rental-return" type="date" name="rental_return" min="{{ today|date:'Y-m-d' }}" required></div>
+            <div><label for="rental-location">PICK-UP CITY</label><input id="rental-location" type="text" name="location" value="{{ initial_location }}" placeholder="City or preferred showroom" required></div>
+            <div class="rental-form-heading"><p class="subtitle-red">02 / YOUR DETAILS</p><h2>WHERE CAN WE REACH YOU?</h2></div>
+            <div><label for="rental-name">NAME</label><input id="rental-name" type="text" name="name" autocomplete="name" value="{{ initial_name }}" required></div>
+            <div><label for="rental-email">EMAIL</label><input id="rental-email" type="email" name="email" autocomplete="email" value="{{ initial_email }}" required></div>
+            <div><label for="rental-phone">PHONE</label><input id="rental-phone" type="tel" name="phone" autocomplete="tel" value="{{ initial_phone }}" required></div>
+            <div class="rental-terms-check"><input id="agree-rental-terms" type="checkbox" name="agree_rental_terms" value="yes" required><label for="agree-rental-terms">I have reviewed the rental terms shown above and agree to them.</label></div>
+            <p class="rental-payment-note">The rental total includes the selected number of days plus the listed security deposit. Any refund conditions are described in the model's rental terms.</p>
+            {% if razorpay_configured %}<button class="btn-primary" type="submit">CONTINUE TO SECURE RAZORPAY PAYMENT →</button>{% else %}<button class="btn-primary" type="button" disabled>ONLINE PAYMENT NOT CONNECTED</button><p class="rental-payment-note">Rental checkout is ready, but the Razorpay merchant account has not been connected on this site yet.</p>{% endif %}
+            <p class="booking-privacy">By submitting, you agree that our team may contact you about the rental. {% if user.is_authenticated %}The request will appear in <a href="{% url 'Account' %}">My Account</a>.{% else %}<a href="{% url 'Register' %}">Create an account</a> to track your requests.{% endif %}</p>
+        </form>
+        {% else %}<div class="empty-state rental-setup-note">Online rental checkout will open once rental rates, deposits and terms are added to a model in the website admin and the Razorpay merchant account is connected. Contact our team for current availability.</div>{% endif %}
+    {% else %}
+        <div class="booking-intro"><p class="subtitle-red">A PERSONAL RIDE EXPERIENCE</p><h2>LET'S GET YOU ON THE ROAD.</h2><p>{% if fee_paise %}A test-ride reservation payment of {{ fee_currency }} {{ fee_display }} will be requested securely through Razorpay after you submit the form.{% else %}Submit a test-ride request at no charge. Online payment can be enabled when the reservation amount and Razorpay account are configured.{% endif %}</p></div>
+        {% if bikes %}<form class="booking-form" method="post">
+            {% csrf_token %}<input type="hidden" name="booking_type" value="test_ride">
+            <div><label for="booking-name">NAME</label><input id="booking-name" type="text" name="name" autocomplete="name" value="{{ initial_name }}" required></div>
+            <div><label for="booking-email">EMAIL</label><input id="booking-email" type="email" name="email" autocomplete="email" value="{{ initial_email }}" required></div>
+            <div><label for="booking-phone">PHONE</label><input id="booking-phone" type="tel" name="phone" autocomplete="tel" value="{{ initial_phone }}" required></div>
+            <div><label for="booking-bike">MODEL</label><select id="booking-bike" name="bike" required><option value="">SELECT MODEL</option>{% for bike in bikes %}<option value="{{ bike.pk }}" {% if selected_bike|stringformat:'s' == bike.pk|stringformat:'s' %}selected{% endif %}>{{ bike.name }}</option>{% endfor %}</select></div>
+            <div><label for="booking-date">PREFERRED DATE</label><input id="booking-date" type="date" name="date" min="{{ today|date:'Y-m-d' }}"></div>
+            <div><label for="booking-location">CITY / AREA</label><input id="booking-location" type="text" name="location" value="{{ initial_location }}" placeholder="Where would you like to ride?"></div>
+            <button class="btn-primary" type="submit">{% if fee_paise %}CONTINUE TO PAYMENT →{% else %}REQUEST A TEST RIDE →{% endif %}</button>
+            <p class="booking-privacy">By submitting, you agree that our team may contact you about this ride request. {% if user.is_authenticated %}Your request will appear in <a href="{% url 'Account' %}">My Account</a>.{% else %}<a href="{% url 'Register' %}">Create an account</a> to keep track of your requests.{% endif %}</p>
+        </form>{% else %}<div class="empty-state">Our models are being added. Please check back soon or <a href="{% url 'Contact' %}">contact our team</a>.</div>{% endif %}
+    {% endif %}
+</section>
+{% endblock %}

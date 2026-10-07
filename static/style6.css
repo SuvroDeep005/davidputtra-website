@@ -1,0 +1,321 @@
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--red:#e8000a;--black:#050505;--dark:#0b0b0b;--grey:#a5a5a5;--white:#fff}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font-family:Inter,Arial,sans-serif;overflow-x:hidden}
+h1,h2,h3,h4,h5,.logo,.nav-links,a,.tagline,.subtitle-red,.badge-tag,.btn-primary,.btn-outline,label,strong{font-family:"Barlow Condensed",sans-serif}
+a{text-decoration:none;color:inherit}
+.navbar{position:fixed;z-index:1000;top:0;left:0;width:100%;display:flex;align-items:center;justify-content:space-between;padding:18px 40px;background:rgba(0,0,0,.78);backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.08)}
+.logo{font-size:25px;font-weight:900;letter-spacing:-1px}.david{color:var(--red)}.puttra{color:#fff}
+.nav-links{list-style:none;display:flex;gap:30px;align-items:center;margin:0}.nav-links a{position:relative;font-size:16px;font-weight:700;letter-spacing:1px;transition:.25s}.nav-links a:hover{color:var(--red)}.nav-links a::after{content:"";position:absolute;left:0;bottom:-6px;width:0;height:2px;background:var(--red);transition:.3s}.nav-links a:hover::after{width:100%}
+.book-btn,.btn-primary,.btn-outline{display:inline-block;border:0;padding:12px 22px;font-size:16px;font-weight:800;letter-spacing:1px;cursor:pointer;transition:.25s}
+.book-btn,.btn-primary{background:var(--red);color:#fff;clip-path:polygon(8px 0,100% 0,calc(100% - 8px) 100%,0 100%)}.book-btn:hover,.btn-primary:hover{transform:translateY(-2px);background:#ff1820;color:#fff;box-shadow:0 10px 28px rgba(232,0,10,.4)}
+.btn-outline{border:1px solid #fff;background:transparent;color:#fff}.btn-outline:hover{background:#fff;color:#000}
+.menu-toggle,.mobile-book{display:none}
+.hero{min-height:100vh;background:linear-gradient(90deg,rgba(0,0,0,.86),rgba(0,0,0,.45)),url("vroom-vroom.avif") center/cover no-repeat;display:flex;align-items:center;padding:120px 7% 60px}
+.hero-content{max-width:950px}.tagline{color:var(--red);font-weight:800;letter-spacing:2px;font-size:16px;margin-bottom:12px}
+.hero h1,.page-hero h1{font-size:clamp(58px,9vw,105px);line-height:.9;font-weight:900;margin:0 0 25px}.white-line{display:block;color:#fff}.red-line{color:var(--red)}.outline-line{display:block;color:transparent;-webkit-text-stroke:2px #fff}
+.page-hero{display:flex;flex-direction:column;justify-content:center;min-height:52vh;padding:170px 7% 70px}.page-hero p:not(.tagline){max-width:640px;color:#ccc;font-size:16px;line-height:1.7;margin-top:4px}
+.desc{max-width:680px;color:#ddd;font-size:17px;line-height:1.7}.hero-buttons{display:flex;gap:14px;margin:28px 0 45px}
+.hero-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;padding:0}.hero-stats div{border-left:2px solid var(--red);padding-left:14px}.hero-stats h2{font-family:"Barlow Condensed";font-size:38px;color:var(--red);margin:0}.hero-stats p{font-size:12px;text-transform:uppercase;color:#bbb;margin:0}
+.BEAST,.content-section{background:var(--black);padding:90px 5%}.section-heading{margin-bottom:45px}.section-heading h2{font-size:clamp(40px,6vw,70px);line-height:.9;margin:0}
+.lineup-row,.performance-grid,.model-grid{max-width:1400px;margin:0 auto}
+.lineup-row{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.model-card{position:relative;overflow:hidden;background:#111;min-height:500px}.model-card.featured{transform:translateY(-18px)}.model-card img{width:100%;height:500px;object-fit:cover;display:block;transition:.5s}.model-card{transition:.35s ease}.model-card:hover{box-shadow:0 25px 55px rgba(0,0,0,.55)}.model-card:not(.featured):hover{transform:translateY(-8px)}.model-card:hover img{transform:scale(1.05)}.model-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,#000);pointer-events:none}.badge-tag{position:absolute;z-index:3;top:18px;left:18px;background:var(--red);padding:7px 14px;font-size:14px;font-weight:800}.X-body{position:absolute;z-index:4;left:25px;right:20px;bottom:22px}.subtitle-red{color:var(--red);font-weight:800;letter-spacing:1.5px;font-size:14px}.X-body h3{font-size:34px;margin:2px 0 14px}.specs-row{display:flex;gap:0;border-top:1px solid rgba(255,255,255,.3);padding-top:12px}.specs-row span{flex:1;font-size:13px;color:#ddd}
+.page-hero,
+.dark-section {
+    background-image:
+        linear-gradient(
+            rgba(0,0,0,0.75),
+            rgba(0,0,0,0.88)
+        ),
+        url("vroom-vroom.avif");
+
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.dark-section{background:#080808}.model-grid{display:grid;gap:35px}.detail-card{display:grid;grid-template-columns:45% 55%;background:#111;overflow:hidden;transition:.35s ease}.detail-card:hover{box-shadow:0 20px 50px rgba(232,0,10,.18);transform:translateY(-4px)}.detail-card img{width:100%;height:420px;object-fit:cover;transition:.5s}.detail-card:hover img{transform:scale(1.04)}.detail-card>div{padding:45px}.detail-card h2,.performance-box h2,.heritage-grid h2,.contact-grid h2,.dealer-box h2{font-size:clamp(30px,4vw,48px);margin:0 0 15px}.detail-card p,.heritage-grid p,.contact-grid p,.dealer-box p,.performance-note p{color:#bbb;line-height:1.7}.detail-specs{display:flex;gap:35px;border-top:1px solid #333;border-bottom:1px solid #333;padding:18px 0;margin:25px 0}.detail-specs span{color:#aaa}.detail-specs b{display:block;color:#fff;font-size:28px;font-family:"Barlow Condensed"}.card-link{color:var(--red);font-family:"Barlow Condensed";font-weight:800;letter-spacing:1px;transition:.25s}.card-link:hover{letter-spacing:2.5px}
+.performance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.performance-box{background:#111;padding:40px;min-height:280px;border-top:3px solid var(--red);transition:.35s ease}.performance-box:hover{transform:translateY(-6px);box-shadow:0 20px 45px rgba(232,0,10,.2);border-top-color:#fff}.performance-box span{color:#777}.performance-box h2{font-size:clamp(36px,5vw,55px)}.performance-box strong{display:block;color:var(--red);font-size:clamp(28px,4vw,42px)}.performance-note{margin-top:50px;max-width:700px}
+.performance-bike-list{max-width:1180px;margin:0 auto;display:grid;gap:28px}.performance-bike{background:#101010;border:1px solid #272727;border-top:3px solid var(--red);padding:clamp(24px,4vw,46px);transition:.3s ease}.performance-bike:hover{border-top-color:#fff;box-shadow:0 18px 45px rgba(232,0,10,.14)}.performance-bike-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:20px}.performance-index,.model-year{color:#aaa;font-size:11px;font-weight:800;letter-spacing:1.6px}.performance-bike-heading h2{font-size:clamp(32px,5vw,54px);margin:8px 0 0}.model-year{padding:12px 14px;border:1px solid #373737;white-space:nowrap}.performance-highlights{display:grid;grid-template-columns:repeat(3,1fr);margin:26px 0;border-top:1px solid #333;border-bottom:1px solid #333}.performance-highlights>div{padding:19px 20px;border-right:1px solid #333}.performance-highlights>div:first-child{padding-left:0}.performance-highlights>div:last-child{border-right:0}.performance-highlights span{display:block;color:#999;font-size:10px;font-weight:800;letter-spacing:1.5px}.performance-highlights strong{display:block;margin-top:6px;color:#fff;font-size:clamp(25px,3vw,36px);font-family:"Barlow Condensed",sans-serif}.performance-highlights small{color:#aaa;font-size:15px}.performance-spec-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 26px;margin:0 0 26px}.performance-spec-list>div{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid #262626}.performance-spec-list dt{color:#999;font-size:13px}.performance-spec-list dd{margin:0;color:#eee;font-size:13px;text-align:right}.performance-note{max-width:1180px;margin:50px auto 0}
+.performance-summary{max-width:850px;color:#bbb;line-height:1.75;margin:0 0 18px}.performance-fit{color:#ddd;line-height:1.6;margin:0 0 28px}.performance-fit span{display:inline-block;color:#999;font-size:10px;font-weight:800;letter-spacing:1.5px;margin-right:10px}.bike-spec-subheading{font-size:18px;margin:26px 0 0}.detail-technical-specs{margin-top:8px}
+.heritage-grid,.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:80px;max-width:1100px;margin:auto}.big-number{font-family:"Barlow Condensed";font-size:clamp(70px,14vw,150px)!important;line-height:.8;color:var(--red)!important;font-weight:900}
+.dealer-box{max-width:700px;text-align:center;margin:auto;padding:70px 30px;background:#111;transition:.35s ease}.dealer-box:hover{box-shadow:0 20px 50px rgba(232,0,10,.18)}.dealer-box i{font-size:55px;color:var(--red);margin-bottom:20px}
+.contact-form,.booking-form{display:grid;gap:15px}.contact-form input,.contact-form textarea,.booking-form input,.booking-form select{width:100%;padding:15px;background:#111;border:1px solid #333;color:#fff;outline:none}.contact-form input:focus,.contact-form textarea:focus,.booking-form input:focus,.booking-form select:focus{border-color:var(--red)}.contact-info{margin-top:30px;color:#ddd}.contact-info i{color:var(--red);width:25px}
+.booking-form{max-width:850px;margin:auto;grid-template-columns:1fr 1fr}.booking-form>div{display:flex;flex-direction:column;gap:7px}.booking-form label{font-weight:800;letter-spacing:1px;color:#bbb}.booking-form button{grid-column:1/-1;justify-self:start}
+.site-footer{background:#000;border-top:1px solid #222;padding:45px 5%;display:grid;grid-template-columns:1fr 1fr 1fr;align-items:center;gap:20px}.site-footer p{color:#777;font-size:13px;margin:8px 0 0}.footer-links{display:flex;justify-content:center;gap:18px;flex-wrap:wrap}.footer-links a{color:#aaa;font-size:14px}.copyright{text-align:right}
+
+@media(max-width:1200px){
+.navbar{padding:15px 20px}.desktop-book{display:none}.menu-toggle{display:block;background:none;border:0;color:#fff;font-size:24px}.nav-links{display:none;position:absolute;top:64px;left:0;width:100%;background:#050505;flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 20px}.nav-links.show{display:flex}.nav-links li a{display:block;padding:13px}.mobile-book{display:block}.mobile-book a{margin-top:8px;text-align:center}
+}
+@media(max-width:1024px){
+.lineup-row,.performance-grid{grid-template-columns:repeat(2,1fr)}.model-card.featured{transform:none}.page-hero{padding:150px 6% 60px}
+}
+@media(max-width:900px){
+.hero{padding:120px 7% 50px}.hero-stats{grid-template-columns:1fr 1fr}.lineup-row,.performance-grid{grid-template-columns:1fr}.performance-spec-list{grid-template-columns:repeat(2,minmax(0,1fr))}.performance-bike-heading{flex-direction:column}.model-card.featured{transform:none}.model-card img{height:430px}.detail-card,.heritage-grid,.contact-grid{grid-template-columns:1fr;gap:0}.detail-card img{height:300px}.detail-card>div{padding:30px}.page-hero{min-height:60vh;padding:130px 7% 60px}.booking-form{grid-template-columns:1fr}.booking-form button{grid-column:auto}.site-footer{grid-template-columns:1fr;text-align:center}.copyright{text-align:center}
+}
+@media(max-width:500px){
+.hero h1,.page-hero h1{font-size:58px}.section-heading h2{font-size:52px}.hero-buttons{flex-direction:column;align-items:flex-start}.hero-stats{grid-template-columns:1fr}.hero-stats div{padding:10px 0 10px 14px}.specs-row span{font-size:11px}.detail-specs{gap:15px}.big-number{font-size:100px!important}
+}
+.models-page,
+.performance-page,
+.heritage-page,
+.dealers-page,
+.contact-page {
+    min-height: 100vh;
+
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.78),
+            rgba(0, 0, 0, 0.88)
+        ),
+        url("vroom-vroom.avif");
+
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease}
+.reveal.is-visible{opacity:1;transform:translateY(0)}
+.reveal:nth-child(2){transition-delay:.12s}
+.reveal:nth-child(3){transition-delay:.24s}
+.reveal:nth-child(4){transition-delay:.36s}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+
+/* Brand story, rider reviews, location map, accounts and checkout */
+.section-intro{max-width:680px;color:#aaa;line-height:1.7;margin-top:12px}
+.model-card .model-blurb{max-width:480px;color:#ddd;line-height:1.5;font-size:14px;margin:0 0 12px}
+.model-card .card-link{display:inline-block;margin-top:12px}
+.promise-band,.home-cta{padding:85px 7%;text-align:center;background:linear-gradient(120deg,#120506,#080808 65%);border-top:1px solid #291113;border-bottom:1px solid #291113}
+.promise-band h2,.home-cta h2{font-size:clamp(36px,6vw,66px);line-height:1.02;margin:12px 0 18px}
+.promise-band>p:not(.tagline){max-width:650px;margin:0 auto 24px;color:#bbb;line-height:1.7}
+.review-section{padding:90px 6%;background:#090909}
+.review-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;max-width:1250px;margin:32px auto 0}
+.review-card{padding:28px;background:#111;border:1px solid #252525;border-top:2px solid var(--red)}
+.review-stars{color:#f3b838;font-size:20px;letter-spacing:3px;margin-bottom:14px}
+.review-card blockquote{color:#eee;line-height:1.75;margin:0 0 22px}
+.review-author{font-weight:700;margin:0;color:#fff}.review-author span,.review-bike{color:#999;font-weight:400}
+.review-bike{font-size:12px;margin:7px 0 0}
+.empty-state{max-width:760px;margin:28px auto;padding:24px;text-align:center;color:#bbb;background:#111;border:1px dashed #393939;line-height:1.7}
+.empty-state a,.booking-privacy a{color:#fff;text-decoration:underline;text-decoration-color:var(--red);text-underline-offset:3px}
+.heritage-story{max-width:900px;margin:0 auto 65px;padding:40px 0;border-bottom:1px solid #282828}
+.heritage-story h2{font-size:clamp(38px,6vw,68px);line-height:1;margin:10px 0 22px}
+.heritage-story-copy{max-width:760px;color:#bbb;line-height:1.9}.heritage-story-copy p{margin:0 0 18px}.heritage-story-copy p:last-child{margin-bottom:0}
+.heritage-founders{position:relative;max-width:900px;margin:0 auto 70px;padding:38px 42px;background:linear-gradient(115deg,#16090a,#101010 68%);border:1px solid #332021;border-left:3px solid var(--red)}.founders-location{display:flex;align-items:center;gap:10px;color:#ddd;font-size:11px;font-weight:800;letter-spacing:1.7px;margin-bottom:30px}.founders-marker{color:var(--red)}.heritage-founders h2{font-size:clamp(30px,4.5vw,48px);line-height:1.05;margin:8px 0 12px}.heritage-founders .subtitle-red{margin-bottom:8px}.founders-names{color:#fff;font:800 16px "Barlow Condensed",sans-serif;letter-spacing:2px;text-transform:uppercase;margin:0 0 14px}.founders-story{max-width:740px;color:#aaa;line-height:1.8;margin:0}
+.heritage-hero-values{display:flex;justify-content:center;gap:28px;flex-wrap:wrap;margin-top:34px}.heritage-hero-values span{color:#bbb;font-size:11px;font-weight:800;letter-spacing:1.7px}.heritage-hero-values span+span:before{content:"/";color:var(--red);margin-right:28px}
+.heritage-principles{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:900px;margin:0 auto 70px}.heritage-principles>div{border-left:1px solid #3a2526;padding:0 0 4px 18px}.heritage-principles span{color:var(--red);font:800 13px "Barlow Condensed",sans-serif;letter-spacing:1px}.heritage-principles h3{font-size:24px;margin:7px 0}.heritage-principles p{max-width:260px;color:#999;line-height:1.7;margin:0}
+.commitment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;max-width:1250px;margin:auto}
+.commitment-card{position:relative;min-height:310px;padding:34px;background:#111;border-top:2px solid var(--red)}
+.commitment-card h2{font-size:34px;line-height:1.05;margin:12px 0}
+.commitment-card>p:not(.subtitle-red){color:#aaa;line-height:1.75;margin-bottom:18px}
+.commitment-icon{color:#555;font:800 48px "Barlow Condensed",sans-serif}
+.heritage-cta .hero-buttons{justify-content:center;margin-top:26px}
+.dealer-section{padding-top:40px}
+.coverage-heading{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;max-width:1300px;margin:0 auto 28px}.coverage-heading h2{font-size:clamp(30px,4vw,48px);margin:7px 0}.coverage-heading p:not(.subtitle-red){max-width:700px;color:#aaa;line-height:1.7;margin:0}.coverage-count{display:flex;align-items:baseline;gap:8px;color:#aaa;font-size:11px;font-weight:800;letter-spacing:1.5px}.coverage-count strong{color:#fff;font:800 48px "Barlow Condensed",sans-serif}.coverage-map-layout{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(250px,.8fr);gap:24px;max-width:1300px;margin:0 auto 32px}.coverage-map-panel{position:relative;min-width:0;background:#111;border:1px solid #292929}.coverage-map-panel #india-dealer-map{height:440px;width:100%;background:#121619;z-index:1}.coverage-map-panel .leaflet-container{font:13px Inter,sans-serif}.coverage-map-panel .leaflet-popup-content-wrapper,.coverage-map-panel .leaflet-popup-tip{background:#111;color:#fff}.coverage-map-panel .leaflet-popup-content p{margin:6px 0 0;color:#aaa}.map-attribution{position:absolute;z-index:500;bottom:0;left:0;padding:4px 8px;background:rgba(8,8,8,.8);color:#999;font-size:10px}.map-attribution a{color:#ddd}.coverage-map-aside{padding:30px;background:#111;border-top:2px solid var(--red)}.coverage-map-aside h3{font-size:clamp(27px,3.4vw,38px);line-height:1.05;margin:10px 0 20px}.coverage-map-aside>p:not(.tagline){color:#aaa;line-height:1.75}.coverage-legend{display:grid;gap:12px;margin:20px 0 24px;color:#ddd;font-size:12px;font-weight:700;letter-spacing:.5px}.coverage-legend span,.coverage-services span{display:flex;align-items:center;gap:9px}.coverage-dot{display:inline-block;width:10px;height:10px;border-radius:50%;flex:0 0 10px}.showroom-dot{background:#e8000a}.service-dot{background:#d7b26d}.coverage-city-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:1300px;margin:0 auto 58px}.coverage-city-card{position:relative;padding:24px;background:#101010;border:1px solid #282828;border-top:2px solid #343434}.coverage-city-index{color:#555;font:800 36px "Barlow Condensed",sans-serif}.coverage-city-card h3{font-size:27px;margin:4px 0 0}.coverage-region{color:#888;font-size:12px;margin:3px 0 16px}.coverage-services{display:flex;flex-wrap:wrap;gap:10px 18px;margin:18px 0;color:#ddd;font-size:10px;font-weight:800;letter-spacing:1px}.coverage-note{color:#999;font-size:12px;line-height:1.6;margin:0}.dealer-addresses{border-top:1px solid #292929;padding-top:45px}
+.dealer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:24px;max-width:1300px;margin:auto}
+.location-card{padding:26px;background:#101010;border:1px solid #282828}
+.location-heading{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.location-heading h2{font-size:28px;margin:0}.location-heading .subtitle-red{margin:0 0 4px}
+.location-icon{width:52px;height:52px;display:grid;place-items:center;background:#1b090a;color:var(--red);font-size:30px}
+.location-card address,.location-phone{color:#bbb;font-style:normal;line-height:1.7;margin-bottom:14px}
+.map-frame{height:250px;margin:20px 0 16px;background:#191919;border:1px solid #333}
+.map-frame iframe{width:100%;height:100%;border:0;filter:grayscale(.15) contrast(1.03)}
+.map-note{padding:14px;background:#1a1510;color:#d4b878;font-size:13px;line-height:1.6}
+.booking-intro{max-width:850px;margin:0 auto 30px;text-align:center}
+.booking-intro h2{font-size:clamp(30px,4vw,48px);margin:8px 0}
+.booking-intro>p:last-child{color:#aaa;line-height:1.7}
+.booking-mode-tabs{display:flex;max-width:850px;margin:0 auto 36px;border-bottom:1px solid #333}.booking-mode-tabs a{padding:15px 24px;color:#999;font-size:14px;font-weight:800;letter-spacing:1.5px;border-bottom:2px solid transparent}.booking-mode-tabs a.active,.booking-mode-tabs a:hover{color:#fff;border-color:var(--red)}.rental-catalog{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;max-width:1100px;margin:0 auto 36px}.rental-bike-card{padding:24px;background:#101010;border:1px solid #282828;border-top:2px solid var(--red)}.rental-bike-card h3{font-size:25px;margin:6px 0 18px}.rental-bike-card>strong{display:block;color:#fff;font:800 23px "Barlow Condensed",sans-serif}.rental-bike-card>strong small{color:#aaa;font-size:12px}.rental-bike-card>p,.rental-bike-card details p{color:#999;font-size:12px;line-height:1.65}.rental-bike-card details{border-top:1px solid #2c2c2c;margin-top:16px;padding-top:13px}.rental-bike-card summary{color:#ddd;font-size:12px;cursor:pointer}.rental-price-pending{color:#d2b06b!important;font-size:17px!important}.rental-booking-form{max-width:1000px}.rental-form-heading{grid-column:1/-1;align-self:end;border-bottom:1px solid #2a2a2a;padding-bottom:8px;margin:10px 0 0}.rental-form-heading h2{font-size:clamp(23px,3vw,34px);margin:4px 0}.rental-form-heading .subtitle-red{margin:0}.rental-payment-note{grid-column:1/-1;color:#aaa;font-size:13px;line-height:1.7;margin:0}.rental-setup-note{max-width:850px;margin:0 auto}
+.booking-form .rental-terms-check{grid-column:1/-1;display:flex;flex-direction:row;align-items:center;gap:12px}.rental-terms-check input[type=checkbox]{width:18px;min-height:18px;accent-color:var(--red)}.rental-terms-check label{color:#ccc;font-size:13px;font-weight:500;letter-spacing:0}
+.booking-form{padding:30px;background:#0e0e0e;border:1px solid #252525}
+.booking-form input,.booking-form select,.account-form input{min-height:50px;border-radius:0}
+.booking-privacy{grid-column:1/-1;max-width:740px;color:#888;font-size:12px;line-height:1.7}
+.account-form{display:grid;gap:12px;max-width:520px;margin:auto;padding:32px;background:#101010;border:1px solid #292929}
+.account-form label{margin-top:8px;color:#bbb;font-weight:800;letter-spacing:1px}
+.account-form input{width:100%;padding:14px;background:#080808;color:#fff;border:1px solid #333}
+.account-form input:focus{outline:1px solid var(--red);border-color:var(--red)}
+.account-form ul{margin:0;padding-left:20px;color:#999;font-size:12px}
+.account-form p,.account-form small{color:#aaa;line-height:1.6}
+.account-bookings{max-width:950px;margin:auto}.account-bookings>h2{font-size:38px;margin-bottom:22px}
+.account-booking{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:22px 0;border-bottom:1px solid #333}
+.account-booking h3{font-size:26px;margin:5px 0}.account-booking p{color:#aaa;margin:0}.account-booking small{color:#888}
+.payment-card{max-width:650px;margin:auto;padding:40px;background:#101010;border:1px solid #333;text-align:center}
+.payment-card h2{font-size:38px;margin:10px 0}.payment-card>p{color:#aaa;line-height:1.7}.payment-card .btn-primary{margin:22px auto}
+.payment-total{padding:14px 0;border-top:1px solid #333;border-bottom:1px solid #333;color:#fff!important;font-size:20px;font-weight:800;letter-spacing:1px}
+.form-error,.message-error{color:#ff777d}
+.site-messages{position:fixed;z-index:1100;top:84px;right:20px;max-width:min(440px,calc(100% - 40px));padding:0}
+.site-messages p{margin:0;padding:15px 18px;background:#151515;border-left:3px solid #36bb73;box-shadow:0 8px 22px #0008;color:#eee}
+.site-messages .message-error{border-color:var(--red)}
+.bike-detail-layout{max-width:1250px;margin:auto;display:grid;grid-template-columns:1fr 1fr;gap:55px;align-items:center}
+.bike-detail-image img{display:block;width:100%;max-height:600px;object-fit:cover}
+.bike-detail-copy h2{font-size:clamp(40px,6vw,68px);margin:8px 0}
+.bike-detail-copy>p:not(.subtitle-red){color:#bbb;line-height:1.8;margin-bottom:24px}
+.model-reviews{max-width:1250px;margin:80px auto 0;padding-top:50px;border-top:1px solid #333}
+.model-reviews h2{font-size:38px}
+@media(max-width:1200px){.nav-links{gap:15px}.nav-links a{font-size:14px}}
+@media(max-width:900px){.commitment-grid{grid-template-columns:1fr}.coverage-map-layout{grid-template-columns:1fr}.coverage-city-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.coverage-heading{align-items:flex-start;flex-direction:column}.heritage-principles{grid-template-columns:1fr;gap:24px}.heritage-story{margin-bottom:48px}.heritage-hero-values{gap:14px}.heritage-hero-values span+span:before{margin-right:14px}.bike-detail-layout{grid-template-columns:1fr;gap:30px}.booking-privacy{grid-column:auto}.account-booking{align-items:flex-start;flex-direction:column}}
+
+
+/* Editorial model catalogue and model detail pages */
+.models-hero{min-height:39vh;padding-top:145px;padding-bottom:54px;background-image:linear-gradient(90deg,rgba(0,0,0,.9),rgba(0,0,0,.58)),url("vroom-vroom.avif");background-position:center 42%}
+.models-hero h1{max-width:1000px;font-size:clamp(52px,9vw,112px);line-height:.88;letter-spacing:-.025em;margin:18px 0 22px}
+.models-hero p:not(.tagline){max-width:700px;font-size:17px;color:#d0d0d0;line-height:1.8}
+.models-section{padding:38px 5% 100px}
+.models-intro-row{max-width:1280px;margin:0 auto 32px;display:flex;justify-content:space-between;align-items:end;gap:35px}
+.models-intro-row h2{font-size:clamp(34px,5vw,54px);margin:6px 0 0;line-height:1}
+.models-intro-row>p{max-width:390px;color:#aaa;line-height:1.75;margin:0 0 3px}
+.model-grid{max-width:1280px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;align-items:stretch}
+.model-card-premium{min-width:0;background:linear-gradient(145deg,#151515,#0d0d0d);border:1px solid #292929;transition:transform .3s ease,border-color .3s ease,box-shadow .3s ease}
+.model-card-premium:hover{transform:translateY(-5px);border-color:#593033;box-shadow:0 24px 55px #0009}
+.model-card-visual{position:relative;display:block;aspect-ratio:16/10;overflow:hidden;background:#151515}
+.model-card-visual:after{content:"";position:absolute;inset:45% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.45));pointer-events:none}
+.model-card-visual img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .55s ease}
+.model-card-premium:hover .model-card-visual img{transform:scale(1.035)}
+.model-badge{position:absolute;z-index:1;top:18px;left:18px;padding:8px 12px;background:var(--red);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase}
+.model-image-index{position:absolute;z-index:1;right:18px;bottom:16px;color:#fff;font-size:10px;font-weight:700;letter-spacing:2px}
+.model-card-copy{padding:26px 28px 28px}
+.model-category{margin:0 0 9px;color:#d7a4a7;font-size:11px;font-weight:800;letter-spacing:1.8px;text-transform:uppercase}
+.model-title-row{display:flex;justify-content:space-between;align-items:center;gap:18px}
+.model-title-row h2{font-size:clamp(30px,3.2vw,42px);line-height:.98;margin:0;letter-spacing:.01em}
+.model-title-mark{color:#333;font:800 23px "Barlow Condensed",sans-serif;letter-spacing:2px}
+.model-card-description{margin:15px 0 7px;color:#eee;font-size:16px;line-height:1.65}
+.model-card-detail{margin:0;color:#999;font-size:13px;line-height:1.75}
+.model-specs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:22px 0 0;padding:16px 0;border-top:1px solid #303030;border-bottom:1px solid #303030}
+.model-specs>div{padding:0 13px;border-left:1px solid #303030}
+.model-specs>div:first-child{padding-left:0;border-left:0}
+.model-specs dt{color:#888;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.model-specs dd{margin:3px 0 0;color:#fff;font:600 26px "Barlow Condensed",sans-serif}
+.model-specs dd small{color:#999;font:600 11px Inter,sans-serif;text-transform:uppercase}
+.model-specs-note{margin:18px 0 0;padding:14px 16px;background:#151515;border-left:2px solid var(--red);color:#aaa;font-size:12px;line-height:1.6}
+.model-card-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:23px}
+.model-card-actions .btn-primary{margin:0;padding:14px 18px;font-size:13px}
+.model-secondary-link{color:#ccc;font-size:11px;font-weight:800;letter-spacing:1.2px;text-decoration:none}
+.model-secondary-link:hover{color:var(--red)}
+.model-cta-band{padding:74px 6%;text-align:center;background:linear-gradient(120deg,#170809,#080808 68%);border-top:1px solid #2a1415;border-bottom:1px solid #2a1415}
+.model-cta-band h2{max-width:850px;margin:10px auto 15px;font-size:clamp(36px,6vw,66px);line-height:1}
+.model-cta-band>p:not(.tagline){max-width:600px;margin:0 auto;color:#aaa;line-height:1.75}
+.model-cta-band .hero-buttons{justify-content:center;margin:27px 0 0}
+.bike-hero{min-height:58vh;padding:150px 7% 65px;display:grid;grid-template-columns:minmax(0,1fr) 280px;gap:40px;align-items:end;background:linear-gradient(100deg,#050505 0%,#080808 60%,#150809 100%);border-bottom:1px solid #252020}
+.bike-hero-copy{max-width:850px}
+.bike-hero h1{margin:15px 0 13px;font-size:clamp(58px,10vw,120px);line-height:.85;letter-spacing:-.025em}
+.bike-hero-description{max-width:670px;color:#bbb;font-size:18px;line-height:1.8}
+.bike-hero .hero-buttons{margin:25px 0 0}
+.bike-hero-side{padding:25px 0 3px 25px;border-left:1px solid #383030}
+.bike-hero-side-mark{color:#3b2526;font:900 100px/.8 "Barlow Condensed",sans-serif;letter-spacing:-8px}
+.bike-hero-side p{margin:18px 0 0;color:#999;font-size:12px;line-height:1.8;letter-spacing:2px}
+.bike-hero-side strong{color:#fff}
+.bike-overview-section{padding:95px 6%;background:#0a0a0a}
+.bike-detail-layout{max-width:1280px;grid-template-columns:1.08fr .92fr;gap:70px}
+.bike-detail-image{position:relative;background:#141414}
+.bike-detail-image:after{content:"";position:absolute;inset:0;border:1px solid #ffffff12;pointer-events:none}
+.bike-detail-image img{aspect-ratio:4/3;max-height:unset;object-fit:cover}
+.bike-detail-copy h2{max-width:580px;font-size:clamp(38px,5vw,62px);line-height:.98;margin:15px 0 20px}
+.bike-copy-body,.bike-copy-body p{color:#aaa;font-size:15px;line-height:1.9}
+.bike-spec-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));margin:27px 0 0;padding:17px 0;border-top:1px solid #343434;border-bottom:1px solid #343434}
+.bike-spec-grid>div{padding:0 12px;border-left:1px solid #333}
+.bike-spec-grid>div:first-child{padding-left:0;border-left:0}
+.bike-spec-grid dt{color:#888;font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase}
+.bike-spec-grid dd{margin:5px 0 0;color:#fff;font:600 28px "Barlow Condensed",sans-serif}
+.bike-spec-grid dd small{color:#999;font:600 11px Inter,sans-serif;text-transform:uppercase}
+.bike-story-section{padding:85px 6% 100px;background:#101010}
+.bike-story-heading{max-width:1280px;margin:0 auto 32px}
+.bike-story-heading h2{margin:9px 0;font-size:clamp(38px,6vw,64px);line-height:.95}
+.bike-story-heading>p:last-child{max-width:620px;color:#999;line-height:1.7}
+.bike-story-grid{max-width:1280px;margin:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.bike-story-card{position:relative;min-height:260px;padding:30px;background:linear-gradient(145deg,#171717,#101010);border:1px solid #292929;border-top:2px solid #a50009}
+.bike-story-card>span{position:absolute;top:20px;right:22px;color:#363030;font:700 34px "Barlow Condensed",sans-serif}
+.bike-story-card .subtitle-red{font-size:10px;margin:0 0 18px}
+.bike-story-card h3{max-width:250px;margin:0 0 13px;font-size:27px;line-height:1.05}
+.bike-story-card>p:last-child{color:#999;font-size:13px;line-height:1.8}
+.bike-detail-cta{border:0}
+.bike-detail-cta .btn-primary{display:inline-flex;margin:25px auto 0}
+.model-reviews{background:#0a0a0a}
+@media(max-width:950px){.models-intro-row{align-items:start;flex-direction:column;gap:10px}.model-grid{grid-template-columns:1fr;max-width:700px}.bike-hero{min-height:unset;grid-template-columns:1fr;padding-top:135px}.bike-hero-side{display:none}.bike-detail-layout{grid-template-columns:1fr;gap:34px}.bike-detail-image img{max-height:440px}.bike-story-grid{grid-template-columns:1fr;max-width:700px}.bike-story-card{min-height:unset}}
+@media(max-width:600px){.coverage-map-panel #india-dealer-map{height:350px}.coverage-city-grid,.rental-catalog{grid-template-columns:1fr}.coverage-map-aside{padding:24px}.coverage-count strong{font-size:38px}.booking-mode-tabs a{flex:1;text-align:center;padding:14px 8px;font-size:12px}.booking-form{padding:22px}.rental-form-heading{grid-column:auto}.models-hero{min-height:36vh;padding-top:130px}.models-hero h1{font-size:clamp(48px,14vw,70px)}.models-hero p:not(.tagline){font-size:15px}.models-section{padding:28px 5% 70px}.models-intro-row h2{font-size:38px}.model-card-copy{padding:22px 20px}.model-card-visual{aspect-ratio:4/3}.model-card-actions{align-items:flex-start;flex-direction:column;gap:15px}.bike-hero{padding:128px 6% 48px}.bike-hero h1{font-size:clamp(52px,14vw,76px)}.bike-hero-description{font-size:16px}.bike-hero .hero-buttons{align-items:flex-start}.bike-overview-section,.bike-story-section{padding:65px 6%}.bike-spec-grid{gap:0}.bike-spec-grid>div{padding:0 8px}.bike-spec-grid dt{font-size:9px}.bike-spec-grid dd{font-size:23px}.model-cta-band{padding:60px 6%}}
+@media(prefers-reduced-motion:reduce){.model-card-premium,.model-card-visual img{transition:none}}
+
+/* V4S portrait-photo framing */
+.model-card-visual img[src$="davidputtra-v4s.webp"],.bike-detail-image img[src$="davidputtra-v4s.webp"]{object-position:center 40%}
+
+/* Self-contained schematic dealer coverage map: no third-party map tiles */
+.coverage-map-panel #india-dealer-map.india-coverage-map{position:relative;height:440px;width:100%;overflow:hidden;isolation:isolate;background:radial-gradient(ellipse at 54% 46%,#202326 0,#151719 48%,#101112 100%);z-index:1}
+.india-coverage-map:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:44px 44px;mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);z-index:-1}
+.india-map-art{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.india-landmass{fill:url(#indiaLandFill);stroke:#a8343a;stroke-width:2.2;stroke-linejoin:round;filter:drop-shadow(0 8px 18px rgba(0,0,0,.55))}
+.india-map-detail{fill:none;stroke:rgba(255,255,255,.09);stroke-width:1.2;stroke-dasharray:3 5}
+.india-island{fill:#26272a;stroke:#a8343a;stroke-width:1.2}
+.india-map-wordmark{fill:rgba(255,255,255,.11);font:800 26px Inter,sans-serif;letter-spacing:8px;text-anchor:middle}
+.india-city-pin{position:absolute;display:flex;align-items:center;gap:7px;transform:translate(0,-50%);z-index:2;white-space:nowrap}
+.india-city-pin i{display:block;width:12px;height:12px;border:2px solid #fff;border-radius:50%;background:#e8000a;box-shadow:0 0 0 5px rgba(232,0,10,.2),0 2px 10px #000}
+.india-city-pin b{padding:5px 8px;color:#f4f4f4;background:rgba(10,10,11,.88);border:1px solid rgba(255,255,255,.14);font-size:10px;font-weight:800;letter-spacing:.4px;text-shadow:0 1px 2px #000}
+.india-map-caption{position:absolute;left:16px;bottom:14px;color:#8a8b8d;font-size:9px;font-weight:800;letter-spacing:1.6px}
+@media(max-width:600px){.coverage-map-panel #india-dealer-map.india-coverage-map{height:350px}.india-city-pin{gap:4px}.india-city-pin i{width:10px;height:10px}.india-city-pin b{font-size:8px;padding:4px 5px}.india-map-wordmark{font-size:21px}}
+
+
+/* Accurate, local India outline with coordinate-aligned city pins */
+.coverage-map-layout{grid-template-columns:minmax(0,1.15fr) minmax(280px,.8fr);max-width:1200px}
+.coverage-map-panel #india-dealer-map.india-coverage-map{height:auto;aspect-ratio:1.22/1;width:100%;background:radial-gradient(ellipse at 50% 46%,#202326 0,#151719 60%,#101112 100%)}
+.india-map-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.india-city-pin{transform:translate(0,-50%)}
+.india-map-caption{font-size:8px;letter-spacing:1.2px}
+@media(max-width:900px){.coverage-map-layout{grid-template-columns:1fr;max-width:760px}}
+@media(max-width:600px){.coverage-map-panel #india-dealer-map.india-coverage-map{height:auto;aspect-ratio:1.16/1}.india-city-pin{gap:4px}.india-city-pin i{width:10px;height:10px}.india-city-pin b{font-size:8px;padding:4px 5px}}
+
+/* State-by-state map styling inspired by the supplied reference */
+.coverage-map-panel #india-dealer-map.india-coverage-map{background:radial-gradient(ellipse at 50% 48%,#26323a 0,#1a2229 62%,#11171d 100%)}
+.india-map-art{position:absolute;inset:0;width:100%;height:100%;object-fit:fill}
+.india-city-pin i{background:#e50914;box-shadow:0 0 0 5px rgba(229,9,20,.24),0 2px 10px #000}
+.india-map-caption{color:#ddd;font-size:8px;letter-spacing:1.1px;text-shadow:0 1px 4px #000}
+
+
+#india-dealer-map{scroll-margin-top:84px}
+.coverage-map-panel #india-dealer-map.india-coverage-map{scroll-margin-top:84px}
+
+/* Website-matched monochrome India coverage map */
+.coverage-map-panel #india-dealer-map.india-coverage-map{background:#080808}
+.india-map-art{filter:brightness(.86)}
+.india-city-pin i.showroom-only{background:#e50914;box-shadow:0 0 0 4px rgba(229,9,20,.22),0 2px 8px #000}
+.india-city-pin i.service-only{background:#d7b26d;box-shadow:0 0 0 4px rgba(215,178,109,.2),0 2px 8px #000}
+.india-map-caption{color:#888}
+
+/* Contact page: rider support and enquiry form */
+.contact-hero h1{max-width:1000px;font-size:clamp(54px,8vw,96px);line-height:.94}
+.contact-hero h1 .red-line{display:block;margin-top:8px}
+.contact-section{padding-top:70px;padding-bottom:100px}
+.contact-layout{display:grid;grid-template-columns:minmax(270px,.78fr) minmax(0,1.22fr);gap:26px;max-width:1180px;margin:0 auto;align-items:stretch}
+.contact-panel{display:flex;flex-direction:column;padding:clamp(28px,4vw,46px);background:linear-gradient(145deg,#171011,#101010 56%);border:1px solid #302425;border-top:3px solid var(--red)}
+.contact-panel>.subtitle-red,.contact-form-heading .subtitle-red{margin:0 0 12px}
+.contact-panel h2,.contact-form-heading h2{font-size:clamp(30px,3.8vw,46px);line-height:1.02;margin:0 0 14px}
+.contact-panel-copy,.contact-form-heading>p:last-child{color:#aaa;line-height:1.75;margin:0}
+.contact-methods{display:grid;gap:10px;margin:30px 0 24px}
+.contact-method{display:grid;grid-template-columns:42px minmax(0,1fr) 14px;align-items:center;gap:13px;padding:15px 13px;background:#0a0a0a;border:1px solid #292424;color:#fff;transition:border-color .2s,transform .2s}
+.contact-method:hover{border-color:#6b2024;transform:translateY(-2px);color:#fff}
+.contact-icon{display:grid;place-items:center;width:40px;height:40px;color:var(--red);background:rgba(232,0,10,.1);font-size:16px}
+.contact-method small,.contact-network small{display:block;margin-bottom:5px;color:#888;font-size:9px;font-weight:800;letter-spacing:1.5px}
+.contact-method strong{display:block;overflow-wrap:anywhere;font-size:15px;font-weight:600}
+.contact-arrow{color:#666;font-size:11px}
+.contact-network{display:grid;grid-template-columns:40px 1fr;gap:13px;margin-top:auto;padding:20px 0;border-top:1px solid #302929}
+.contact-network-mark{display:grid;place-items:center;width:38px;height:38px;color:var(--red);border:1px solid #3a2526}
+.contact-network p{margin:0 0 10px;color:#aaa;font-size:13px;line-height:1.55}
+.contact-network .card-link{font-size:13px}
+.contact-response{display:flex;align-items:center;gap:9px;margin-top:22px;color:#888;font-size:9px;font-weight:800;letter-spacing:1.2px}
+.contact-response span{width:7px;height:7px;border-radius:50%;background:#d7b26d;box-shadow:0 0 0 4px rgba(215,178,109,.12)}
+.contact-form-card{padding:clamp(28px,4vw,46px);background:#101010;border:1px solid #292929;border-top:3px solid #343434}
+.contact-form-heading{margin-bottom:28px}
+.contact-form-heading h2{margin-bottom:9px}
+.contact-form{gap:24px}
+.contact-field-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 16px}
+.contact-field{display:flex;flex-direction:column;gap:8px;min-width:0}
+.contact-field-wide{grid-column:1/-1}
+.contact-field label{color:#bbb;font-size:10px;font-weight:800;letter-spacing:1.2px}
+.contact-field label span,.contact-form-footer>p span{color:var(--red)}
+.contact-form .contact-field input,.contact-form .contact-field textarea{width:100%;padding:14px 15px;background:#090909;border:1px solid #303030;color:#fff;font:400 14px Inter,sans-serif;outline:none;transition:border-color .2s,box-shadow .2s}
+.contact-form .contact-field input{height:49px}
+.contact-form .contact-field textarea{min-height:142px;resize:vertical;line-height:1.6}
+.contact-form .contact-field input::placeholder,.contact-form .contact-field textarea::placeholder{color:#686868}
+.contact-form .contact-field input:focus,.contact-form .contact-field textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(232,0,10,.1)}
+.contact-form-footer{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.contact-form-footer>p{margin:0;color:#777;font-size:11px}
+.contact-form-footer .btn-primary{display:inline-flex;align-items:center;gap:12px;padding:14px 23px}
+@media(max-width:900px){.contact-layout{grid-template-columns:1fr;max-width:720px}.contact-panel{min-height:0}.contact-network{margin-top:12px}.contact-section{padding-top:52px}}
+@media(max-width:600px){.contact-hero h1{font-size:clamp(46px,12vw,66px)}.contact-form-card,.contact-panel{padding:25px 20px}.contact-field-grid{grid-template-columns:1fr;gap:17px}.contact-field-wide{grid-column:auto}.contact-form-footer{align-items:flex-start;flex-direction:column}.contact-form-footer .btn-primary{width:100%;justify-content:center}.contact-method strong{font-size:14px}}

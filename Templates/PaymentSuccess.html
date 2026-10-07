@@ -1,0 +1,5 @@
+{% extends "Base4.html" %}
+{% block title %}{% if booking.booking_type == 'rental' %}Rental Payment Confirmed{% else %}Ride Request Confirmed{% endif %} | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="tagline">◆ PAYMENT CONFIRMED</p>{% if booking.booking_type == 'rental' %}<h1><span class="white-line">YOUR RENTAL IS</span> <span class="red-line">CONFIRMED.</span></h1><p>Payment for {{ booking.bike.name }} is confirmed for {{ booking.preferred_date|date:'F j, Y' }} to {{ booking.return_date|date:'F j, Y' }}. Our team will contact you with pick-up details.</p>{% else %}<h1><span class="white-line">YOUR NEXT</span> <span class="red-line">RIDE BEGINS.</span></h1><p>Your reservation for {{ booking.bike.name }} is confirmed. Our team will contact you with the test-ride details.</p>{% endif %}<p>Reference #{{ booking.pk }}</p><a class="btn-primary" href="{% url 'Home' %}">BACK TO HOME →</a></section>
+{% endblock %}

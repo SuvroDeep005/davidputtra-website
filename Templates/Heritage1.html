@@ -1,0 +1,16 @@
+{% extends "Base4.html" %}
+{% block title %}Heritage | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero heritage-hero"><p class="tagline">◆ DIL SE INDIAN</p><h1><span class="white-line">OUR</span> <span class="red-line">HERITAGE.</span></h1><p>{{ brand.heritage_intro }}</p><div class="heritage-hero-values"><span>ROOTED IN INDIA</span><span>SHAPED AROUND RIDERS</span><span>LOOKING TO THE ROAD AHEAD</span></div></section>
+<section class="content-section dark-section">
+    <div class="heritage-story"><p class="subtitle-red">A SPIRIT THAT MOVES US</p><h2>INDIAN AT HEART.<br>OPEN TO EVERY ROAD.</h2><div class="heritage-story-copy">{{ brand.heritage_story|linebreaks }}</div></div>
+    <section class="heritage-founders"><div class="founders-location"><span class="founders-marker" aria-hidden="true">◆</span><span>{{ brand.origin_label }}</span></div><p class="subtitle-red">THE PEOPLE BEHIND THE BRAND</p><h2>{{ brand.founders_title }}</h2><p class="founders-names">{{ brand.founders_names }}</p><p class="founders-story">{{ brand.founders_story }}</p></section>
+    <div class="heritage-principles"><div><span>01</span><h3>Our roots</h3><p>An Indian point of view, carried into every ride and every road ahead.</p></div><div><span>02</span><h3>Our approach</h3><p>Purposeful design, considered performance and care for the details.</p></div><div><span>03</span><h3>Our promise</h3><p>Clear guidance and a rider-first relationship from first enquiry onward.</p></div></div>
+    <div class="commitment-grid">
+        <article class="commitment-card reveal"><span class="commitment-icon">01</span><p class="subtitle-red">PRECISION ENGINEERING</p><h2>{{ brand.engineering_title }}</h2><p>{{ brand.engineering_story|linebreaksbr }}</p></article>
+        <article class="commitment-card reveal"><span class="commitment-icon">02</span><p class="subtitle-red">CUSTOMER COMMITMENT</p><h2>{{ brand.satisfaction_title }}</h2><p>{{ brand.satisfaction_story|linebreaksbr }}</p></article>
+        <article class="commitment-card reveal"><span class="commitment-icon">03</span><p class="subtitle-red">LIFE WITH YOUR BIKE</p><h2>SUPPORT FOR THE LONG RIDE.</h2><p>Explore our locations, speak with the team and find a service centre for help with the next step of your journey.</p><a class="card-link" href="{% url 'Dealers' %}">FIND SERVICE & SHOWROOMS →</a></article>
+    </div>
+</section>
+<section class="model-cta-band heritage-cta"><p class="tagline">◆ THE ROAD AHEAD</p><h2>FIND THE RIDE THAT FEELS LIKE YOURS.</h2><p>Explore the DAVIDPUTTRA range or meet our team at a showroom.</p><div class="hero-buttons"><a class="btn-primary" href="{% url 'Models' %}">EXPLORE THE LINEUP →</a><a class="btn-outline" href="{% url 'Dealers' %}">FIND A SHOWROOM</a></div></section>
+{% endblock %}

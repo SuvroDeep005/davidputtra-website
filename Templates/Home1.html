@@ -1,0 +1,48 @@
+{% extends "Base4.html" %}
+{% load static %}
+{% block title %}DAVIDPUTTRA | Official Website{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <p class="tagline">◆ DIL SE INDIAN</p>
+        <h1><span class="white-line">BUILT FOR</span><span class="red-line">LEGENDS</span><span class="outline-line">ONLY.</span></h1>
+        <p class="desc">Motorcycles for riders who demand character, confident performance and the freedom to take the longer road. Designed with Indian spirit. Made for every journey ahead.</p>
+        <div class="hero-buttons"><a class="btn-primary" href="{% url 'Models' %}">EXPLORE MODELS →</a><a class="btn-outline" href="{% url 'Heritage' %}">OUR STORY</a></div>
+        <div class="hero-stats">
+            <div class="reveal"><h2>{{ bikes|length }}</h2><p>Distinctive models</p></div>
+            <div class="reveal"><h2>INDIAN</h2><p>At heart</p></div>
+            <div class="reveal"><h2>RIDER</h2><p>First, always</p></div>
+            <div class="reveal"><h2>MADE</h2><p>For the open road</p></div>
+        </div>
+    </div>
+</section>
+
+<section class="BEAST">
+    <div class="section-heading reveal"><p class="tagline">◆ OUR CREATION'S LINEUP</p><h2><span class="white-line">CHOOSE YOUR</span> <span class="red-line">BEAST</span></h2><p class="section-intro">Explore each motorcycle's character, capability and engineering in more detail.</p></div>
+    <div class="lineup-row">
+        {% for bike in bikes %}
+        <article class="model-card reveal">
+            {% if bike.badge %}<div class="badge-tag">{{ bike.get_badge_display|upper }}</div>{% endif %}
+            {% if bike.image %}<img src="{{ bike.image.url }}" alt="{{ bike.name }}">{% elif bike.image_name %}<img src="{% static bike.image_name %}" alt="{{ bike.name }}">{% endif %}
+            <div class="X-body"><p class="subtitle-red">{{ bike.category|upper }}</p><h3>{{ bike.name }}</h3><p class="model-blurb">{{ bike.description }}</p><div class="specs-row"><span>{% if bike.engine_cc %}{{ bike.engine_cc }} cc{% else %}cc TBD{% endif %}</span><span>{% if bike.power_bhp %}{{ bike.power_bhp }} BHP{% else %}BHP TBD{% endif %}</span><span>{% if bike.torque_nm %}{{ bike.torque_nm }} Nm{% else %}Nm TBD{% endif %}</span></div><a class="card-link" href="{% url 'BikeDetail' bike.slug %}">DISCOVER THIS MODEL →</a></div>
+        </article>
+        {% empty %}<p class="empty-state">Our model lineup is being updated. Please check back soon.</p>{% endfor %}
+    </div>
+</section>
+
+<section class="promise-band">
+    <p class="tagline">◆ BUILT WITH PURPOSE</p><h2>PRECISION ENGINEERING.<br><span class="red-line">CARE THAT GOES FURTHER.</span></h2>
+    <p>Thoughtful design and responsive support are part of the ride. Meet the people and principles behind DAVIDPUTTRA.</p><a class="btn-outline" href="{% url 'Heritage' %}">OUR COMMITMENT →</a>
+</section>
+
+<section class="review-section">
+    <div class="section-heading"><p class="tagline">◆ RIDER STORIES</p><h2>THE ROAD, <span class="red-line">IN THEIR WORDS.</span></h2><p class="section-intro">A motorcycle is only part of the experience. Here's what our community has to say.</p></div>
+    <div class="review-grid">
+        {% for review in reviews %}<article class="review-card"><div class="review-stars" aria-label="{{ review.rating }} out of 5 stars">{% for star in "12345" %}{% if forloop.counter <= review.rating %}★{% else %}☆{% endif %}{% endfor %}</div><blockquote>“{{ review.review }}”</blockquote><p class="review-author">{{ review.customer_name }}{% if review.location %}<span> · {{ review.location }}</span>{% endif %}</p>{% if review.bike %}<p class="review-bike">{{ review.bike.name }} rider</p>{% endif %}</article>
+        {% empty %}<p class="empty-state">Customer stories will appear here as riders share their experiences.</p>{% endfor %}
+    </div>
+</section>
+
+<section class="home-cta"><p class="tagline">◆ THE NEXT RIDE IS YOURS</p><h2>FEEL THE DIFFERENCE.</h2><a class="btn-primary" href="{% url 'BookNow' %}">REQUEST A TEST RIDE →</a></section>
+{% endblock %}

@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="DAVIDPUTTRA motorcycles — built for legends only.">
+    <title>{% block title %}DAVIDPUTTRA | Official Website{% endblock %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'style6.css' %}?v=20261007-7">
+    {% block extra_css %}{% endblock %}
+</head>
+
+<body>
+<nav class="navbar">
+    <a href="{% url 'Home' %}" class="logo" aria-label="DAVIDPUTTRA Home">
+        <span class="david">DAVID</span><span class="puttra">PUTTRA</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false">
+        <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <ul class="nav-links">
+        <li><a href="{% url 'Models' %}">MODELS</a></li>
+        <li><a href="{% url 'Performance' %}">PERFORMANCE</a></li>
+        <li><a href="{% url 'Heritage' %}">HERITAGE</a></li>
+        <li><a href="{% url 'Dealers' %}">DEALERS</a></li>
+        <li><a href="{% url 'Contact' %}">CONTACT</a></li>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'Account' %}">MY ACCOUNT</a></li>
+        {% else %}
+        <li><a href="{% url 'Login' %}">LOGIN</a></li>
+        {% endif %}
+        <li class="mobile-book"><a class="book-btn" href="{% url 'BookNow' %}">BOOK NOW</a></li>
+    </ul>
+
+    <a class="book-btn desktop-book" href="{% url 'BookNow' %}">BOOK NOW</a>
+</nav>
+
+<main>
+{% if messages %}
+<div class="site-messages" role="status">
+    {% for message in messages %}<p class="message-{{ message.tags }}">{{ message }}</p>{% endfor %}
+</div>
+{% endif %}
+{% block content %}{% endblock %}
+</main>
+
+<footer class="site-footer">
+    <div>
+        <div class="logo"><span class="david">DAVID</span><span class="puttra">PUTTRA</span></div>
+        <p>BUILT FOR LEGENDS ONLY.</p>
+    </div>
+
+    <div class="footer-links"><a href="{% url 'Models' %}">MODELS</a><a href="{% url 'Dealers' %}">SHOWROOMS & SERVICE</a><a href="{% url 'Contact' %}">CONTACT</a></div>
+    <p class="copyright">© 2026 DAVIDPUTTRA. All rights reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-G/EV+4j2dNv+tEPo3++6LCgdCROaejBqfUeNjuKAiuXbjrxilcCdDz6ZAVfHWe1Y"
+        crossorigin="anonymous"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".menu-toggle");
+    const links = document.querySelector(".nav-links");
+    if (toggle && links) {
+        toggle.addEventListener("click", () => {
+            const open = links.classList.toggle("show");
+            toggle.setAttribute("aria-expanded", open);
+            toggle.innerHTML = open
+                ? '<i class="fa-solid fa-xmark"></i>'
+                : '<i class="fa-solid fa-bars"></i>';
+        });
+    }
+
+    const revealEls = document.querySelectorAll(".reveal");
+    if (revealEls.length && "IntersectionObserver" in window) {
+        const revealIo = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("is-visible");
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        revealEls.forEach((el) => revealIo.observe(el));
+    } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+    }
+
+    function animateCount(el) {
+        const target = parseInt(el.dataset.target, 10) || 0;
+        const suffix = el.dataset.suffix || "";
+        const duration = 1200;
+        const start = performance.now();
+        function tick(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.floor(eased * target) + suffix;
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                el.textContent = target + suffix;
+            }
+        }
+        requestAnimationFrame(tick);
+    }
+
+    const countEls = document.querySelectorAll(".stat-num");
+    if (countEls.length && "IntersectionObserver" in window) {
+        const countIo = new IntersectionObserver((entries, obs) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    animateCount(entry.target);
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        countEls.forEach((el) => countIo.observe(el));
+    }
+});
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>

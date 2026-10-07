@@ -1,0 +1,6 @@
+{% extends "Base4.html" %}
+{% block title %}Customer Login | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero"><p class="tagline">◆ YOUR DAVIDPUTTRA</p><h1><span class="white-line">WELCOME</span> <span class="red-line">BACK.</span></h1><p>Sign in to see your ride requests.</p></section>
+<section class="content-section dark-section"><form class="account-form" method="post">{% csrf_token %}{% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors }}</div>{% endif %}<label for="id_username">USERNAME</label>{{ form.username }}{{ form.username.errors }}<label for="id_password">PASSWORD</label>{{ form.password }}{{ form.password.errors }}{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}<button class="btn-primary" type="submit">SIGN IN →</button><p>New here? <a class="card-link" href="{% url 'Register' %}">CREATE AN ACCOUNT</a></p></form></section>
+{% endblock %}

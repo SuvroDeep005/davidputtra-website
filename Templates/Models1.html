@@ -1,0 +1,50 @@
+{% extends "Base4.html" %}
+{% load static %}
+{% block title %}Motorcycle Lineup | DAVIDPUTTRA{% endblock %}
+{% block content %}
+<section class="page-hero models-hero">
+    <p class="tagline">◆ THE DAVIDPUTTRA LINEUP</p>
+    <h1><span class="white-line">FIND YOUR</span> <span class="red-line">NEXT MACHINE.</span></h1>
+    <p>Distinct personalities. One uncompromising spirit. Explore the range, compare the published specifications and choose the ride that feels like yours.</p>
+</section>
+<section class="content-section dark-section models-section" aria-label="Motorcycle models">
+    <div class="models-intro-row">
+        <div><p class="subtitle-red">BUILT AROUND THE RIDE</p><h2>Choose your character.</h2></div>
+        <p>Every model has its own point of view. Start with the details, then book a ride to experience it for yourself.</p>
+    </div>
+    <div class="model-grid">
+        {% for bike in bikes %}
+        <article class="model-card-premium reveal">
+            <a class="model-card-visual" href="{% url 'BikeDetail' bike.slug %}" aria-label="Explore {{ bike.name }}">
+                {% if bike.image %}<img src="{{ bike.image.url }}" alt="{{ bike.name }} motorcycle" loading="lazy">{% elif bike.image_name %}<img src="{% static bike.image_name %}" alt="{{ bike.name }} motorcycle" loading="lazy">{% endif %}
+                {% if bike.badge %}<span class="model-badge">{{ bike.get_badge_display }}</span>{% endif %}
+                <span class="model-image-index">MODEL 0{{ forloop.counter }}</span>
+            </a>
+            <div class="model-card-copy">
+                <p class="model-category">{{ bike.category }}</p>
+                <div class="model-title-row"><h2>{{ bike.name }}</h2><span class="model-title-mark">DP</span></div>
+                <p class="model-card-description">{{ bike.description }}</p>
+                {% if bike.long_description %}<p class="model-card-detail">{{ bike.long_description|truncatewords:28 }}</p>{% endif %}
+                {% if bike.engine_cc and bike.power_bhp and bike.torque_nm %}
+                <dl class="model-specs">
+                    <div><dt>Displacement</dt><dd>{{ bike.engine_cc }} <small>cc</small></dd></div>
+                    <div><dt>Power</dt><dd>{{ bike.power_bhp }} <small>bhp</small></dd></div>
+                    <div><dt>Torque</dt><dd>{{ bike.torque_nm }} <small>Nm</small></dd></div>
+                </dl>
+                {% else %}<p class="model-specs-note">Specifications are being finalised. Please contact our team for the latest details.</p>{% endif %}
+                <div class="model-card-actions">
+                    <a class="btn-primary" href="{% url 'BikeDetail' bike.slug %}">EXPLORE MODEL <span aria-hidden="true">↗</span></a>
+                    <a class="model-secondary-link" href="{% url 'BookNow' %}?bike={{ bike.pk }}">BOOK A TEST RIDE</a>
+                </div>
+            </div>
+        </article>
+        {% empty %}<p class="empty-state">Our model lineup is being updated. Please check back soon.</p>{% endfor %}
+    </div>
+</section>
+<section class="model-cta-band">
+    <p class="tagline">◆ MAKE IT YOURS</p>
+    <h2>The right ride starts with a conversation.</h2>
+    <p>Speak with our team or visit a showroom to learn more about the lineup.</p>
+    <div class="hero-buttons"><a class="btn-primary" href="{% url 'Dealers' %}">FIND A SHOWROOM</a><a class="btn-outline" href="{% url 'Contact' %}">TALK TO OUR TEAM</a></div>
+</section>
+{% endblock %}

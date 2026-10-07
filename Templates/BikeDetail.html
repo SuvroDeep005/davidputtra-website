@@ -1,0 +1,61 @@
+{% extends "Base4.html" %}
+{% load static %}
+{% block title %}{{ bike.name }} | DAVIDPUTTRA Motorcycles{% endblock %}
+{% block content %}
+<section class="bike-hero">
+    <div class="bike-hero-copy">
+        <p class="tagline">◆ {{ bike.category|upper }}{% if bike.badge %} &nbsp;·&nbsp; {{ bike.get_badge_display|upper }}{% endif %}</p>
+        <h1>{{ bike.name }}</h1>
+        <p class="bike-hero-description">{{ bike.description }}</p>
+        <div class="hero-buttons"><a class="btn-primary" href="{% url 'BookNow' %}?bike={{ bike.pk }}">BOOK A TEST RIDE <span aria-hidden="true">→</span></a><a class="btn-outline" href="{% url 'Models' %}">EXPLORE THE LINEUP</a></div>
+    </div>
+    <div class="bike-hero-side"><span class="bike-hero-side-mark">DP</span><p>MADE FOR THE<br><strong>ROAD AHEAD.</strong></p></div>
+</section>
+<section class="bike-overview-section">
+    <div class="bike-detail-layout">
+        <div class="bike-detail-image">{% if bike.image %}<img src="{{ bike.image.url }}" alt="{{ bike.name }} motorcycle" fetchpriority="high">{% elif bike.image_name %}<img src="{% static bike.image_name %}" alt="{{ bike.name }} motorcycle" fetchpriority="high">{% endif %}</div>
+        <div class="bike-detail-copy">
+            <p class="subtitle-red">01 / THE OVERVIEW</p>
+            <h2>Character you can make your own.</h2>
+            {% if bike.long_description %}<div class="bike-copy-body">{{ bike.long_description|linebreaks }}</div>{% else %}<p class="bike-copy-body">{{ bike.description }}</p>{% endif %}
+            <dl class="bike-spec-grid">
+                {% if bike.model_year %}<div><dt>Model year</dt><dd>{{ bike.model_year }}</dd></div>{% endif %}
+                {% if bike.engine_cc %}<div><dt>Engine displacement</dt><dd>{{ bike.engine_cc }} <small>cc</small></dd></div>{% endif %}
+                {% if bike.power_bhp %}<div><dt>Maximum power</dt><dd>{{ bike.power_bhp }} <small>bhp</small></dd></div>{% endif %}
+                {% if bike.torque_nm %}<div><dt>Maximum torque</dt><dd>{{ bike.torque_nm }} <small>Nm</small></dd></div>{% endif %}
+            </dl>
+            {% if bike.engine_configuration or bike.cooling or bike.fuel_system or bike.transmission or bike.fuel_capacity_l or bike.kerb_weight_kg or bike.seat_height_mm or bike.front_suspension or bike.rear_suspension or bike.front_brake or bike.rear_brake or bike.safety_features %}
+            <h3 class="bike-spec-subheading">Technical details</h3><dl class="performance-spec-list detail-technical-specs">
+                {% if bike.engine_configuration %}<div><dt>Engine configuration</dt><dd>{{ bike.engine_configuration }}</dd></div>{% endif %}
+                {% if bike.cooling %}<div><dt>Cooling</dt><dd>{{ bike.cooling }}</dd></div>{% endif %}
+                {% if bike.fuel_system %}<div><dt>Fuel system</dt><dd>{{ bike.fuel_system }}</dd></div>{% endif %}
+                {% if bike.transmission %}<div><dt>Transmission</dt><dd>{{ bike.transmission }}</dd></div>{% endif %}
+                {% if bike.fuel_capacity_l %}<div><dt>Fuel capacity</dt><dd>{{ bike.fuel_capacity_l }} L</dd></div>{% endif %}
+                {% if bike.kerb_weight_kg %}<div><dt>Kerb weight</dt><dd>{{ bike.kerb_weight_kg }} kg</dd></div>{% endif %}
+                {% if bike.seat_height_mm %}<div><dt>Seat height</dt><dd>{{ bike.seat_height_mm }} mm</dd></div>{% endif %}
+                {% if bike.front_suspension %}<div><dt>Front suspension</dt><dd>{{ bike.front_suspension }}</dd></div>{% endif %}
+                {% if bike.rear_suspension %}<div><dt>Rear suspension</dt><dd>{{ bike.rear_suspension }}</dd></div>{% endif %}
+                {% if bike.front_brake %}<div><dt>Front brake</dt><dd>{{ bike.front_brake }}</dd></div>{% endif %}
+                {% if bike.rear_brake %}<div><dt>Rear brake</dt><dd>{{ bike.rear_brake }}</dd></div>{% endif %}
+                {% if bike.safety_features %}<div><dt>Rider aids</dt><dd>{{ bike.safety_features }}</dd></div>{% endif %}
+            </dl>{% endif %}
+            {% if not bike.engine_cc and not bike.power_bhp and not bike.torque_nm and not bike.model_year %}<p class="model-specs-note">Technical figures are being confirmed. Contact our team for current information.</p>{% endif %}
+        </div>
+    </div>
+</section>
+<section class="bike-story-section">
+    <div class="bike-story-heading"><p class="subtitle-red">02 / A CLOSER LOOK</p><h2>Considered from every angle.</h2><p>Get to know what gives the {{ bike.name }} its distinct place in the range.</p></div>
+    <div class="bike-story-grid">
+        {% if bike.design_story %}<article class="bike-story-card"><span>01</span><p class="subtitle-red">DESIGN</p><h3>Form with purpose.</h3><p>{{ bike.design_story|linebreaksbr }}</p></article>{% endif %}
+        {% if bike.ride_story %}<article class="bike-story-card"><span>02</span><p class="subtitle-red">ON THE ROAD</p><h3>A ride with its own rhythm.</h3><p>{{ bike.ride_story|linebreaksbr }}</p></article>{% endif %}
+        {% if bike.ideal_for %}<article class="bike-story-card"><span>03</span><p class="subtitle-red">MADE FOR</p><h3>Your kind of miles.</h3><p>{{ bike.ideal_for }}</p></article>{% endif %}
+    </div>
+</section>
+<section class="model-cta-band bike-detail-cta">
+    <p class="tagline">◆ THE {{ bike.name|upper }}</p>
+    <h2>Meet it on the road.</h2>
+    <p>Book a test ride and get in touch with our team for model availability and current specifications.</p>
+    <a class="btn-primary" href="{% url 'BookNow' %}?bike={{ bike.pk }}">REQUEST YOUR TEST RIDE <span aria-hidden="true">→</span></a>
+</section>
+{% if reviews %}<section class="model-reviews review-section"><p class="tagline">◆ RIDER STORIES</p><h2>OWNERS' PERSPECTIVE.</h2><div class="review-grid">{% for review in reviews %}<article class="review-card"><div class="review-stars" aria-label="{{ review.rating }} out of 5 stars">★★★★★</div><blockquote>“{{ review.review }}”</blockquote><p class="review-author">{{ review.customer_name }}{% if review.location %}<span> · {{ review.location }}</span>{% endif %}</p></article>{% endfor %}</div></section>{% endif %}
+{% endblock %}
