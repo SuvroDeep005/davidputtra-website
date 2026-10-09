@@ -11,7 +11,17 @@ Requirements: Python 3.12 or newer.
 3. Copy `.env.example` to `.env` and replace `DJANGO_SECRET_KEY` with a unique local secret.
 4. Apply database migrations: `python manage.py migrate`.
 5. Create an admin account: `python manage.py createsuperuser`.
-6. Start Django: `python manage.py runserver`.
+6. Start Django's development server: `python manage.py runserver`.
+
+To run the site with Waitress on your own computer, use:
+
+```powershell
+waitress-serve --listen=127.0.0.1:8000 Hello.wsgi:application
+```
+
+If your local Nginx setup serves `/static/` from Django's `staticfiles/` folder, run `python manage.py collectstatic --noinput` after changing CSS, JavaScript or images. Then restart the server and hard-refresh the browser (Ctrl+F5).
+
+For another device on the same Wi-Fi, bind to all network interfaces with `--listen=0.0.0.0:8000`, add your computer's local IP to `DJANGO_ALLOWED_HOSTS`, and allow the port through Windows Firewall on a private network. The other device opens `http://YOUR-COMPUTER-IP:8000/`. This is for local collaboration, not public production hosting.
 
 If `DB_NAME` is not set, the project uses a local SQLite database. Set all `DB_*` variables in `.env` to use PostgreSQL instead. Local uploads and credentials are excluded from Git; the bike photos needed by the site are included in `media/bikes/`.
 

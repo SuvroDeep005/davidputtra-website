@@ -13,14 +13,16 @@ from django.core.validators import validate_email
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.db.models import Q
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.dateparse import parse_date
+from django.utils.http import url_has_allowed_host_and_scheme
 
-from .models import Bike, Booking, BrandContent, ContactMessage, CustomerReview, DealerCoverageCity, DealerLocation
+from .forms import CustomerRegistrationForm
+from .models import Bike, Booking, BrandContent, ChatbotMessage, ContactMessage, CustomerReview, DealerCoverageCity, DealerLocation
 
 
 def _brand_content():
@@ -30,7 +32,7 @@ def _brand_content():
 def home1(request):
     bikes = Bike.objects.filter(is_active=True)
     reviews = CustomerReview.objects.filter(is_published=True).select_related('bike')[:6]
-    return render(request, 'Home1.html', {'bikes': bikes, 'reviews': reviews})
+    return render(request, 'Home1.html', {'bikes': bikes, 'reviews': reviews, 'brand': _brand_content()})
 
 
 def Models1_page(request):
@@ -75,17 +77,61 @@ def contact1_page(request):
     if request.method == 'POST':
         name = request.POST.get('name', '').strip()
         email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
         message = request.POST.get('message', '').strip()
-        if name and email and message:
-            ContactMessage.objects.create(name=name, email=email, message=message)
+        if name and email and message and len(name) <= 100 and len(email) <= 254 and len(subject) <= 180:
+            try:
+                validate_email(email)
+            except ValidationError:
+                messages.error(request, 'Please enter a valid email address.')
+                return render(request, 'Contact1.html', {'form_values': {'name': name, 'email': email, 'subject': subject, 'message': message}})
+            ContactMessage.objects.create(name=name, email=email, subject=subject, message=message)
             messages.success(request, 'Your message has been sent successfully!')
             return redirect('Contact')
-        messages.error(request, 'Please complete your name, email and message.')
+        messages.error(request, 'Please complete the required fields and check your email address. Keep your name under 100 characters and subject under 180 characters.')
+        return render(request, 'Contact1.html', {'form_values': {'name': name, 'email': email, 'subject': subject, 'message': message}})
     return render(request, 'Contact1.html')
 
 
 def heritage1_page(request):
     return render(request, 'Heritage1.html', {'brand': _brand_content()})
+
+
+def chatbot(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Send a message to start a conversation.'}, status=405)
+    message = request.POST.get('message', '').strip()
+    if not message or len(message) > 2000:
+        return JsonResponse({'error': 'Please enter a message under 2,000 characters.'}, status=400)
+    if not request.session.session_key:
+        request.session.create()
+    conversation_id = request.session.session_key
+    ChatbotMessage.objects.create(
+        user=request.user if request.user.is_authenticated else None,
+        conversation_id=conversation_id, role='customer', message=message,
+    )
+
+    normalized = message.casefold()
+    if any(term in normalized for term in ('book', 'test ride', 'test-ride', 'rental', 'rent')):
+        reply = 'To book a test ride or rental, sign in first, then open Book Now. You can create an account from the Login page.'
+    elif any(term in normalized for term in ('model', 'bike', 'motorcycle', 'spec')):
+        names = list(Bike.objects.filter(is_active=True).values_list('name', flat=True))
+        reply = f"Our current models are: {', '.join(names)}. Open Models for specifications and details." if names else 'Our model lineup is being updated. Please use Contact to ask our team.'
+    elif any(term in normalized for term in ('dealer', 'showroom', 'service', 'location', 'city')):
+        cities = list(DealerCoverageCity.objects.filter(is_active=True).values_list('city', flat=True))
+        reply = f"We currently list support in: {', '.join(cities)}. Exact branch details are on Dealers." if cities else 'Please open Dealers or Contact our team for location information.'
+    elif any(term in normalized for term in ('heritage', 'founder', 'brand', 'company')):
+        brand = _brand_content()
+        reply = f'{brand.founders_story[:700]} Visit Heritage to read the full story.'
+    elif any(term in normalized for term in ('contact', 'help', 'support', 'phone', 'email')):
+        reply = 'Our team can help with model, booking and service questions. Use the Contact page and we will follow up.'
+    else:
+        reply = 'I can help with models, specifications, showrooms, service, bookings and rentals. What would you like to know?'
+    ChatbotMessage.objects.create(
+        user=request.user if request.user.is_authenticated else None,
+        conversation_id=conversation_id, role='assistant', message=reply,
+    )
+    return JsonResponse({'reply': reply})
 
 
 def _razorpay_request(path, payload=None, method='POST'):
@@ -117,6 +163,7 @@ def _rental_dates_available(bike, start_date, return_date):
     return overlapping.count() < bike.rental_units
 
 
+@login_required
 def book_now(request):
     bikes = Bike.objects.filter(is_active=True)
     rentable_bikes = bikes.filter(
@@ -244,12 +291,13 @@ def book_now(request):
     return render(request, 'BookNow.html', booking_context)
 
 
+@login_required
 def payment_success(request, booking_id):
     if request.method != 'POST':
         return redirect('BookNow')
     booking = get_object_or_404(Booking, pk=booking_id)
-    if booking.customer_id and booking.customer_id != getattr(request.user, 'pk', None):
-        return redirect('BookNow')
+    if booking.customer_id != request.user.pk:
+        return redirect('Account')
     payment_id = request.POST.get('razorpay_payment_id', '')
     order_id = request.POST.get('razorpay_order_id', '')
     signature = request.POST.get('razorpay_signature', '')
@@ -276,15 +324,20 @@ def payment_success(request, booking_id):
 
 
 def register(request):
+    next_url = request.POST.get('next') or request.GET.get('next', '')
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomerRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
+            if next_url and url_has_allowed_host_and_scheme(
+                next_url, allowed_hosts={request.get_host()}, require_https=request.is_secure()
+            ):
+                return redirect(next_url)
             return redirect('Account')
     else:
-        form = UserCreationForm()
-    return render(request, 'Register.html', {'form': form})
+        form = CustomerRegistrationForm()
+    return render(request, 'Register.html', {'form': form, 'next': next_url})
 
 
 @login_required
@@ -297,3 +350,7 @@ def logout_customer(request):
     if request.method == 'POST':
         logout(request)
     return redirect('Home')
+
+
+def custom_404(request, exception=None, **kwargs):
+    return render(request, '404.html', status=404)

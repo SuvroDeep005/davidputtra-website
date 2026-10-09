@@ -1,13 +1,14 @@
 {% extends "Base4.html" %}
 {% load static %}
 {% block title %}DAVIDPUTTRA | Official Website{% endblock %}
+{% block meta_description %}Meet DAVIDPUTTRA, a West Bengal motorcycle brand founded by riders. Explore our models, engineering, heritage and support.{% endblock %}
 
 {% block content %}
 <section class="hero">
     <div class="hero-content">
-        <p class="tagline">◆ DIL SE INDIAN</p>
-        <h1><span class="white-line">BUILT FOR</span><span class="red-line">LEGENDS</span><span class="outline-line">ONLY.</span></h1>
-        <p class="desc">Motorcycles for riders who demand character, confident performance and the freedom to take the longer road. Designed with Indian spirit. Made for every journey ahead.</p>
+        <p class="tagline">◆ {{ brand.home_tagline }}</p>
+        <h1><span class="white-line">{{ brand.home_title_line_1 }}</span><span class="red-line">{{ brand.home_title_line_2 }}</span><span class="outline-line">{{ brand.home_title_line_3 }}</span></h1>
+        <p class="desc">{{ brand.home_description }}</p>
         <div class="hero-buttons"><a class="btn-primary" href="{% url 'Models' %}">EXPLORE MODELS →</a><a class="btn-outline" href="{% url 'Heritage' %}">OUR STORY</a></div>
         <div class="hero-stats">
             <div class="reveal"><h2>{{ bikes|length }}</h2><p>Distinctive models</p></div>
@@ -32,8 +33,8 @@
 </section>
 
 <section class="promise-band">
-    <p class="tagline">◆ BUILT WITH PURPOSE</p><h2>PRECISION ENGINEERING.<br><span class="red-line">CARE THAT GOES FURTHER.</span></h2>
-    <p>Thoughtful design and responsive support are part of the ride. Meet the people and principles behind DAVIDPUTTRA.</p><a class="btn-outline" href="{% url 'Heritage' %}">OUR COMMITMENT →</a>
+    <p class="tagline">◆ BUILT WITH PURPOSE</p><h2>{{ brand.home_promise_title }}</h2>
+    <p>{{ brand.home_promise_description }}</p><a class="btn-outline" href="{% url 'Heritage' %}">OUR COMMITMENT →</a>
 </section>
 
 <section class="review-section">
@@ -44,5 +45,5 @@
     </div>
 </section>
 
-<section class="home-cta"><p class="tagline">◆ THE NEXT RIDE IS YOURS</p><h2>FEEL THE DIFFERENCE.</h2><a class="btn-primary" href="{% url 'BookNow' %}">REQUEST A TEST RIDE →</a></section>
+<section class="home-cta"><p class="tagline">◆ THE NEXT RIDE IS YOURS</p><h2>{{ brand.home_cta_title }}</h2><a class="btn-primary" href="{% url 'BookNow' %}">REQUEST A TEST RIDE →</a></section>
 {% endblock %}

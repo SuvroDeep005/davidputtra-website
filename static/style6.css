@@ -319,3 +319,35 @@ a{text-decoration:none;color:inherit}
 .contact-form-footer .btn-primary{display:inline-flex;align-items:center;gap:12px;padding:14px 23px}
 @media(max-width:900px){.contact-layout{grid-template-columns:1fr;max-width:720px}.contact-panel{min-height:0}.contact-network{margin-top:12px}.contact-section{padding-top:52px}}
 @media(max-width:600px){.contact-hero h1{font-size:clamp(46px,12vw,66px)}.contact-form-card,.contact-panel{padding:25px 20px}.contact-field-grid{grid-template-columns:1fr;gap:17px}.contact-field-wide{grid-column:auto}.contact-form-footer{align-items:flex-start;flex-direction:column}.contact-form-footer .btn-primary{width:100%;justify-content:center}.contact-method strong{font-size:14px}}
+
+/* Keep the current page visible in the shared navigation. */
+.nav-links a.active::after{width:100%}
+.nav-links a.active{color:#fff}
+@media(max-width:900px){.nav-links a.active::after{bottom:7px;left:13px;width:calc(100% - 26px)}}
+
+
+/* Site-wide responsive and touch-device refinements */
+html,body{width:100%;max-width:100%;overflow-x:clip}
+body{min-width:320px}
+main,section,footer,nav,form,article,aside{min-width:0}
+img,svg,video,canvas{max-width:100%;height:auto}
+iframe{max-width:100%}
+input,select,textarea,button{max-width:100%;font:inherit}
+input,select,textarea{min-width:0}
+.contact-method strong,.footer-contact a,.account-booking p,.coverage-note,.model-card-description,.bike-copy-body,.performance-summary{overflow-wrap:anywhere}
+.navbar{min-height:70px}
+.menu-toggle{min-width:44px;min-height:44px;cursor:pointer}
+.nav-links a:focus-visible,.footer-links a:focus-visible,.logo:focus-visible,.menu-toggle:focus-visible,.btn-primary:focus-visible,.btn-outline:focus-visible{outline:2px solid #fff;outline-offset:4px}
+.site-messages p+p{margin-top:8px}
+.message-success{border-color:#36bb73!important}
+.message-warning{border-color:#e5b84d!important}
+.message-info{border-color:#579be8!important}
+.site-footer{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr) auto}
+.footer-contact{display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.footer-contact a{color:#aaa;font-size:13px}
+.footer-contact a:hover,.footer-links a:hover{color:var(--red)}
+.error-page .hero-buttons{flex-wrap:wrap}
+@media(max-width:1200px){.navbar{min-height:64px}.nav-links{top:100%;max-height:calc(100vh - 64px);overflow-y:auto;padding-bottom:max(20px,env(safe-area-inset-bottom));border-top:1px solid #292929}.nav-links a::after{display:none}.nav-links a.active{border-left:2px solid var(--red)}.site-footer{grid-template-columns:1fr;text-align:center}.footer-contact{align-items:center}.footer-links{justify-content:center}.copyright{text-align:center}}
+@media(max-width:700px){.page-hero,.dark-section,.models-page,.performance-page,.heritage-page,.dealers-page,.contact-page{background-attachment:scroll}.hero,.page-hero{padding-left:6%;padding-right:6%}.content-section,.BEAST{padding-left:6%;padding-right:6%}.hero h1,.page-hero h1{font-size:clamp(44px,12vw,64px);overflow-wrap:anywhere}.hero-buttons{flex-wrap:wrap}.lineup-row,.performance-grid,.model-grid,.bike-story-grid,.commitment-grid,.review-grid{grid-template-columns:minmax(0,1fr)}.model-specs,.bike-spec-grid,.performance-highlights{grid-template-columns:1fr}.model-specs>div,.bike-spec-grid>div,.performance-highlights>div{padding:12px 0;border-left:0;border-right:0;border-bottom:1px solid #303030}.model-specs>div:last-child,.bike-spec-grid>div:last-child,.performance-highlights>div:last-child{border-bottom:0}.model-specs dd,.bike-spec-grid dd{font-size:24px}.contact-layout{grid-template-columns:minmax(0,1fr)!important}.contact-method{min-width:0}.contact-field-grid{grid-template-columns:minmax(0,1fr)!important}.contact-field-wide{grid-column:auto!important}.contact-form-footer{align-items:flex-start;flex-direction:column;gap:14px}.booking-mode-tabs{width:100%}.booking-mode-tabs a{min-width:0}.booking-form{grid-template-columns:minmax(0,1fr);padding:20px}.booking-form button{justify-self:stretch;width:100%}.rental-form-heading{grid-column:auto}.account-form{padding:24px 18px}.payment-card{padding:28px 18px}.coverage-map-panel #india-dealer-map.india-coverage-map{aspect-ratio:1/1.05}.footer-links{gap:12px 18px}}
+@media(max-width:420px){.navbar{padding:12px 14px}.logo{font-size:22px}.hero h1,.page-hero h1{font-size:clamp(40px,11vw,52px)}.tagline{font-size:12px;letter-spacing:1.3px}.hero-stats{grid-template-columns:1fr 1fr;gap:12px}.hero-stats h2{font-size:30px}.section-heading h2{font-size:40px}.contact-method{gap:10px;padding:15px}.contact-method strong{font-size:14px}.coverage-city-grid{grid-template-columns:minmax(0,1fr)}.site-messages{right:10px;max-width:calc(100% - 20px)}.site-messages p{padding:12px 14px;font-size:13px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}

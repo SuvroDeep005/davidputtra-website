@@ -20,7 +20,7 @@ Sign in to `/admin/` with a staff account.
 - **Customer reviews:** Add real customer feedback, then enable **Published** to show it publicly. New reviews are private by default.
 - **Bookings and messages:** Review customer requests and contact enquiries in the admin.
 
-Customer registration and sign-in are available from the main navigation. A signed-in customer can see their own test-ride requests under **My Account**. A booking can also be requested without an account.
+Customer registration and sign-in are available from the main navigation. Test-ride and rental booking pages require sign-in. A signed-in customer can see only their own requests under **My Account**. Admin users can review all bookings, contact messages, chatbot conversations, page traffic and Django admin change history. Customer records and analytics are private to staff accounts.
 
 ## Configure Razorpay
 

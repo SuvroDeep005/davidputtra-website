@@ -1,0 +1,51 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+{% block content %}
+<div id="content-main">
+    <section class="dp-admin-dashboard">
+        <h2>DAVIDPUTTRA site overview</h2>
+        <p>Website activity and customer records. This information is visible to staff only.</p>
+        <div class="dp-metric-grid">
+            <article><span>Page visits · 30 days</span><strong>{{ dashboard_visits|default:0 }}</strong></article>
+            <article><span>Registered accounts</span><strong>{{ dashboard_users|default:0 }}</strong></article>
+            <article><span>Bookings</span><strong>{{ dashboard_bookings|default:0 }}</strong></article>
+            <article><span>Contact messages</span><strong>{{ dashboard_messages|default:0 }}</strong></article>
+            <article><span>Chatbot questions</span><strong>{{ dashboard_chat_messages|default:0 }}</strong></article>
+        </div>
+        <div class="dp-dashboard-columns">
+            <section class="dp-dashboard-panel">
+                <h3>Traffic · last 7 days</h3>
+                {% for day in dashboard_traffic %}
+                <div class="dp-bar-row"><span>{{ day.label }}</span><div><i style="width:{{ day.width }}%"></i></div><b>{{ day.visits }}</b></div>
+                {% empty %}<p>No page visits recorded yet.</p>{% endfor %}
+            </section>
+            <section class="dp-dashboard-panel">
+                <h3>Bookings by status</h3>
+                {% for item in dashboard_booking_statuses %}<p class="dp-status-row"><span>{{ item.status|title|cut:"_" }}</span><strong>{{ item.total }}</strong></p>{% empty %}<p>No bookings recorded yet.</p>{% endfor %}
+            </section>
+            <section class="dp-dashboard-panel">
+                <h3>Most viewed pages · 30 days</h3>
+                {% for page in dashboard_top_pages %}<p class="dp-status-row"><span>{{ page.path }}</span><strong>{{ page.total }}</strong></p>{% empty %}<p>No page visits recorded yet.</p>{% endfor %}
+            </section>
+            <section class="dp-dashboard-panel">
+                <h3>Recent admin changes</h3>
+                {% for log in dashboard_recent_logs %}<p class="dp-log-row"><strong>{{ log.user }}</strong> · {{ log.get_action_flag_display }} {{ log.content_type }} “{{ log.object_repr }}”<small>{{ log.action_time|date:"M j, H:i" }}</small></p>{% empty %}<p>No admin changes recorded yet.</p>{% endfor %}
+            </section>
+        </div>
+    </section>
+    {% if app_list %}
+        <div class="module"><h2>{% translate 'Site administration' %}</h2>{% include "admin/app_list.html" with app_list=app_list show_changelinks=True %}</div>
+    {% endif %}
+</div>
+<style>
+.dp-admin-dashboard{margin:0 0 1.5rem}.dp-admin-dashboard h2{margin-bottom:.25rem}.dp-admin-dashboard>p{color:#8793a1}
+.dp-metric-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:1rem 0}
+.dp-metric-grid article,.dp-dashboard-panel{background:var(--bs-body-bg,#fff);border:1px solid rgba(127,127,127,.25);border-radius:8px;padding:16px}
+.dp-metric-grid span{display:block;color:#8793a1;font-size:.85rem}.dp-metric-grid strong{display:block;font-size:1.8rem;margin-top:5px}
+.dp-dashboard-columns{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-bottom:1rem}
+.dp-dashboard-panel h3{font-size:1rem;margin:0 0 1rem}.dp-bar-row{display:grid;grid-template-columns:44px 1fr 34px;gap:8px;align-items:center;margin:.6rem 0}
+.dp-bar-row>div{height:12px;background:rgba(127,127,127,.16);border-radius:8px;overflow:hidden}.dp-bar-row i{display:block;height:100%;background:#ed1b2f;border-radius:8px}
+.dp-bar-row b,.dp-status-row strong{font-variant-numeric:tabular-nums}.dp-status-row{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid rgba(127,127,127,.18);padding:.45rem 0;margin:0}
+.dp-log-row{border-bottom:1px solid rgba(127,127,127,.18);padding:.45rem 0;margin:0;font-size:.9rem}.dp-log-row small{display:block;color:#8793a1}
+</style>
+{% endblock %}

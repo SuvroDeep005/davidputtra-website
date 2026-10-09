@@ -1,6 +1,7 @@
 {% extends "Base4.html" %}
 {% block title %}Create Account | DAVIDPUTTRA{% endblock %}
+{% block meta_description %}Create a DAVIDPUTTRA account to book test rides, request rentals and track your ride bookings.{% endblock %}
 {% block content %}
 <section class="page-hero"><p class="tagline">◆ JOIN THE RIDE</p><h1><span class="white-line">CREATE</span> <span class="red-line">YOUR ACCOUNT.</span></h1><p>Keep your test-ride requests together in one place.</p></section>
-<section class="content-section dark-section"><form class="account-form" method="post">{% csrf_token %}{% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label|upper }}</label>{{ field }}{% if field.help_text %}<small class="field-help">{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<span class="form-error">{{ error }}</span>{% endfor %}{% endfor %}<button class="btn-primary" type="submit">CREATE ACCOUNT →</button><p>Already registered? <a class="card-link" href="{% url 'Login' %}">SIGN IN</a></p></form></section>
+<section class="content-section dark-section"><form class="account-form" method="post">{% csrf_token %}{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}{% for field in form %}<label for="{{ field.id_for_label }}">{{ field.label|upper }}</label>{{ field }}{% if field.help_text %}<small class="field-help">{{ field.help_text|safe }}</small>{% endif %}{% for error in field.errors %}<span class="form-error">{{ error }}</span>{% endfor %}{% endfor %}<button class="btn-primary" type="submit">CREATE ACCOUNT →</button><p>Already registered? <a class="card-link" href="{% url 'Login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">SIGN IN</a></p></form></section>
 {% endblock %}

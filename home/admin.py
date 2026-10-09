@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Bike, Booking, BrandContent, ContactMessage, CustomerReview, DealerCoverageCity, DealerLocation
+from .models import Bike, Booking, BrandContent, ChatbotMessage, ContactMessage, CustomerReview, DealerCoverageCity, DealerLocation, PageVisit
 
 
 @admin.register(Bike)
@@ -31,14 +31,20 @@ class BookingAdmin(admin.ModelAdmin):
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'submitted_at')
-    search_fields = ('name', 'email', 'message')
+    list_display = ('name', 'email', 'subject', 'submitted_at')
+    search_fields = ('name', 'email', 'subject', 'message')
     date_hierarchy = 'submitted_at'
 
 
 @admin.register(BrandContent)
 class BrandContentAdmin(admin.ModelAdmin):
     list_display = ('engineering_title', 'satisfaction_title')
+    fieldsets = (
+        ('Homepage hero', {'fields': ('home_tagline', 'home_title_line_1', 'home_title_line_2', 'home_title_line_3', 'home_description')}),
+        ('Homepage commitment band', {'fields': ('home_promise_title', 'home_promise_description', 'home_cta_title')}),
+        ('Heritage & founders', {'fields': ('heritage_intro', 'origin_label', 'founders_title', 'founders_names', 'founders_story', 'heritage_story')}),
+        ('Commitments', {'fields': ('engineering_title', 'engineering_story', 'satisfaction_title', 'satisfaction_story')}),
+    )
 
     def has_add_permission(self, request):
         return not BrandContent.objects.exists() and super().has_add_permission(request)
@@ -68,6 +74,41 @@ class CustomerReviewAdmin(admin.ModelAdmin):
     readonly_fields = ('created_at',)
 
 
+@admin.register(PageVisit)
+class PageVisitAdmin(admin.ModelAdmin):
+    list_display = ('path', 'user', 'visited_at')
+    list_filter = ('visited_at',)
+    search_fields = ('path', 'user__username', 'user__email')
+    readonly_fields = ('path', 'user', 'visited_at')
+    date_hierarchy = 'visited_at'
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
+@admin.register(ChatbotMessage)
+class ChatbotMessageAdmin(admin.ModelAdmin):
+    list_display = ('created_at', 'role', 'user', 'conversation_id', 'preview')
+    list_filter = ('role', 'created_at')
+    search_fields = ('message', 'user__username', 'conversation_id')
+    readonly_fields = ('user', 'conversation_id', 'role', 'message', 'created_at')
+    date_hierarchy = 'created_at'
+
+    @admin.display(description='Message')
+    def preview(self, obj):
+        return obj.message[:100]
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
 admin.site.site_header = 'DAVIDPUTTRA Administration'
 admin.site.site_title = 'DAVIDPUTTRA Admin'
 admin.site.index_title = 'Manage your website content'
+admin.site.index_template = 'admin/index.html'

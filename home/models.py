@@ -93,6 +93,7 @@ class Booking(models.Model):
 class ContactMessage(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField()
+    subject = models.CharField(max_length=180, blank=True)
     message = models.TextField()
     submitted_at = models.DateTimeField(auto_now_add=True)
 
@@ -111,6 +112,14 @@ class BrandContent(models.Model):
     engineering_story = models.TextField(default='Precision engineering starts with a clear purpose. We consider how a motorcycle looks, feels and responds, then pay attention to the details that bring the whole experience together—from its stance and riding position to its power and everyday usability. Our aim is to balance expressive design with confidence-inspiring performance, and to share specifications clearly so riders can choose with confidence.')
     satisfaction_title = models.CharField(max_length=120, default='Riders come first.')
     satisfaction_story = models.TextField(default='Customer care should feel as personal as the ride. We want it to be straightforward to explore the lineup, speak with our team, book a test ride and find service support. Clear information, attentive follow-up and a willingness to listen are the foundations of a better relationship with every rider.')
+    home_tagline = models.CharField(max_length=120, default='DIL SE INDIAN')
+    home_title_line_1 = models.CharField(max_length=80, default='BUILT FOR')
+    home_title_line_2 = models.CharField(max_length=80, default='LEGENDS')
+    home_title_line_3 = models.CharField(max_length=80, default='ONLY.')
+    home_description = models.TextField(default='Motorcycles for riders who demand character, confident performance and the freedom to take the longer road. Designed with Indian spirit. Made for every journey ahead.')
+    home_promise_title = models.CharField(max_length=180, default='PRECISION ENGINEERING. CARE THAT GOES FURTHER.')
+    home_promise_description = models.TextField(default='Thoughtful design and responsive support are part of the ride. Meet the people and principles behind DAVIDPUTTRA.')
+    home_cta_title = models.CharField(max_length=120, default='FEEL THE DIFFERENCE.')
 
     def __str__(self):
         return 'Website brand story'
@@ -169,3 +178,34 @@ class CustomerReview(models.Model):
 
     def __str__(self):
         return f'{self.customer_name} — {self.rating}/5'
+
+
+class PageVisit(models.Model):
+    path = models.CharField(max_length=255, db_index=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    visited_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('-visited_at',)
+        verbose_name = 'Page visit'
+        verbose_name_plural = 'Page visits'
+
+    def __str__(self):
+        return f'{self.path} — {self.visited_at:%Y-%m-%d %H:%M}'
+
+
+class ChatbotMessage(models.Model):
+    ROLE_CHOICES = [('customer', 'Customer'), ('assistant', 'Assistant')]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
+    conversation_id = models.CharField(max_length=64, db_index=True)
+    role = models.CharField(max_length=12, choices=ROLE_CHOICES)
+    message = models.TextField(max_length=2000)
+    created_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ('created_at',)
+        verbose_name = 'Chatbot message'
+        verbose_name_plural = 'Chatbot messages'
+
+    def __str__(self):
+        return f'{self.get_role_display()} — {self.created_at:%Y-%m-%d %H:%M}'

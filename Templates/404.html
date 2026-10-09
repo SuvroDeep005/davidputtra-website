@@ -1,0 +1,6 @@
+{% extends "Base4.html" %}
+{% block title %}Page Not Found | DAVIDPUTTRA{% endblock %}
+{% block meta_description %}This DAVIDPUTTRA page could not be found. Return home or explore our motorcycle lineup and support pages.{% endblock %}
+{% block content %}
+<section class="page-hero error-page"><p class="tagline">◆ WRONG TURN? WE'VE GOT YOU.</p><h1><span class="white-line">404</span> <span class="red-line">PAGE NOT FOUND.</span></h1><p>The road you’re looking for may have moved. Choose a route back to the DAVIDPUTTRA website.</p><div class="hero-buttons"><a class="btn-primary" href="{% url 'Home' %}">GO HOME →</a><a class="btn-outline" href="{% url 'Models' %}">EXPLORE MODELS</a></div></section>
+{% endblock %}
